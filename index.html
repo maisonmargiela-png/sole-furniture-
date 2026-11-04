@@ -8,9 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#EEF0EC; --ink:#1F2A24; --moss:#2F4A3A; --oak:#B8864B; --stone:#D9DDD5; --white:#FBFCFA;
-}
+:root{--bg:#EEF0EC;--ink:#1F2A24;--moss:#2F4A3A;--oak:#B8864B;--stone:#D9DDD5;--white:#FBFCFA}
 *{box-sizing:border-box;margin:0}
 body{font-family:"Instrument Sans",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
 a{color:inherit}
@@ -36,6 +34,7 @@ h2{font-family:"Young Serif",serif;font-weight:400;font-size:2rem;margin-bottom:
 .price{font-weight:600;font-size:1.15rem;margin-top:auto;padding-top:10px}
 .buy{margin-top:10px;text-align:center;background:var(--ink);color:var(--white);padding:11px;border-radius:4px;text-decoration:none;font-weight:500}
 .buy:hover{background:var(--moss)}
+.more{margin-top:32px}
 .about{background:var(--white)}
 .about p{max-width:60ch;margin-bottom:14px}
 .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px;margin-top:30px}
@@ -50,7 +49,7 @@ footer a{margin-right:18px}
 <header>
   <a class="logo" href="#top">Sole Furniture</a>
   <nav>
-    <a href="#shop">Shop</a>
+    <a href="shop.html">Shop</a>
     <a href="#about">About</a>
     <a href="#contact">Contact</a>
   </nav>
@@ -66,6 +65,7 @@ footer a{margin-right:18px}
   <section id="shop">
     <h2>Shop</h2>
     <div class="grid" id="products"></div>
+    <div class="more"><a class="btn" href="shop.html">View all products</a></div>
   </section>
 
   <section class="about" id="about">
@@ -85,33 +85,7 @@ footer a{margin-right:18px}
   <a href="terms.html">Terms</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a>
 </footer>
 
-<script>
-/* EDIT YOUR PRODUCTS HERE.
-   - image: put your photo in an "images" folder and write "images/your-photo.jpg". Leave "" for a colour block.
-   - link: paste your Stripe Payment Link (or Snipcart button) for each product. */
-const products = [
-  { name: "Oak dining table", desc: "Seats six. Solid oak, natural oil finish.", price: "€690", color: "#8A6A44", image: "", link: "#" },
-  { name: "Walnut armchair", desc: "Curved back, linen cushion.", price: "€320", color: "#4F3B2C", image: "", link: "#" },
-  { name: "Open bookshelf", desc: "Five shelves, 180 cm tall.", price: "€240", color: "#6E7F6A", image: "", link: "#" },
-  { name: "Bedside table", desc: "One drawer, soft-close.", price: "€130", color: "#9A8B76", image: "", link: "#" }
-];
-
-const list = document.getElementById("products");
-products.forEach(p => {
-  const photo = p.image
-    ? `<img src="${p.image}" alt="${p.name}">`
-    : `<span>Add photo</span>`;
-  list.insertAdjacentHTML("beforeend", `
-    <article class="card">
-      <div class="photo" style="background:${p.color}">${photo}</div>
-      <div class="info">
-        <h3>${p.name}</h3>
-        <p>${p.desc}</p>
-        <div class="price">${p.price}</div>
-        <a class="buy" href="${p.link}">Buy now</a>
-      </div>
-    </article>`);
-});
-</script>
+<script src="products.js"></script>
+<script>renderProducts("products", 0, 4);</script>
 </body>
 </html>
