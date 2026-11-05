@@ -68,14 +68,17 @@ function checkout() {
     + "?subject=" + encodeURIComponent("New order from Sole Furniture")
     + "&body=" + encodeURIComponent(text);
 }
+const photoOf = p => (p.images && p.images[0]) || p.image || "";
 function renderProducts(containerId, list) {
   const box = document.getElementById(containerId);
   if (!list.length) { box.innerHTML = "<p class='empty'>No products here yet. Check back soon.</p>"; return; }
   box.innerHTML = list.map(p => `
     <article class="card">
-      <div class="photo" style="background:${p.color}">${p.image ? `<img src="${p.image}" alt="${p.name}">` : "<span>Add photo</span>"}</div>
+      <a href="product.html?id=${p.id}" style="text-decoration:none;color:inherit">
+        <div class="photo" style="background:${p.color}">${photoOf(p) ? `<img src="${photoOf(p)}" alt="${p.name}">` : "<span>Add photo</span>"}</div>
+      </a>
       <div class="info">
-        <h3>${p.name}</h3>
+        <h3><a href="product.html?id=${p.id}" style="text-decoration:none;color:inherit">${p.name}</a></h3>
         <p>${p.desc}</p>
         <div class="price">${money(p.price)}</div>
         <button class="buy" onclick="addToCart('${p.id}')">Add to basket</button>
