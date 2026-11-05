@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Product – Sole Furniture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.product{display:grid;grid-template-columns:1fr;gap:28px}
+@media(min-width:800px){.product{grid-template-columns:1.2fr 1fr}}
+.main-photo{aspect-ratio:4/3;border-radius:4px;overflow:hidden;display:flex;align-items:center;justify-content:center;color:var(--white)}
+.main-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.thumbs{display:flex;gap:8px;margin-top:10px;overflow-x:auto}
+.thumbs button{flex:0 0 76px;padding:0;border:2px solid transparent;background:none;border-radius:4px;cursor:pointer}
+.thumbs button[aria-current="true"]{border-color:var(--oak)}
+.thumbs img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;border-radius:2px}
+.back{display:inline-block;margin-bottom:18px;font-weight:500}
+.product h1{font-family:"Young Serif",serif;font-weight:400;font-size:2rem;line-height:1.15}
+.pprice{font-size:1.6rem;font-weight:600;margin:10px 0}
+.lead{margin:8px 0 14px;color:#4b574f}
+.product .buy{max-width:340px}
+.specs{margin-top:26px}
+.specs div{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--stone)}
+.specs dt{font-weight:600;flex:0 0 36%}
+.specs dd{margin:0;flex:1}
+.small{margin-top:20px;font-size:.95rem;color:#4b574f}
+</style>
+</head>
+<body>
+<header>
+  <a class="logo" href="index.html">Sole Furniture</a>
+  <nav>
+    <a href="index.html#about">About</a>
+    <a href="#contact">Contact</a>
+    <button id="basket-btn" onclick="openBasket()">Basket (<span class="basket-count">0</span>)</button>
+  </nav>
+</header>
+<div class="catbar" id="catbar"></div>
+<main>
+  <section>
+    <a class="back" href="shop.html">← All products</a>
+    <div class="product" id="product"></div>
+  </section>
+</main>
+<footer id="contact">
+  <p style="margin-bottom:12px">Questions? Email <a href="mailto:solejug@gmail.com">solejug@gmail.com</a></p>
+  <a href="terms.html">Terms</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a>
+</footer>
+<script src="products.js"></script>
+<script src="cart.js"></script>
+<script>
+const p = products.find(x => x.id === new URLSearchParams(location.search).get("id"));
+const root = document.getElementById("product");
+renderCategoryBar(null);
+
+function showPhoto(i) {
+  const imgs = p.images;
+  document.getElementById("main-photo").innerHTML = `<img src="${imgs[i]}" alt="${p.name}, photo ${i + 1}">`;
+  document.querySelectorAll(".thumbs button").forEach((b, n) => b.setAttribute("aria-current", n === i));
+}
+
+if (!p) {
+  root.innerHTML = "<p>Sorry, we couldn’t find that product. <a href='shop.html'>Back to the shop</a></p>";
+} else {
+  document.title = p.name + " – Sole Furniture";
+  const imgs = p.images && p.images.length ? p.images : (p.image ? [p.image] : []);
+  p.images = imgs;
+  const specs = (p.specs || []).map(s => `<div><dt>${s[0]}</dt><dd>${s[1]}</dd></div>`).join("");
+  root.innerHTML = `
+    <div>
+      <div class="main-photo" id="main-photo" style="background:${p.color}">${imgs.length ? "" : "<span>Add photo</span>"}</div>
+      ${imgs.length > 1 ? `<div class="thumbs">${imgs.map((src, i) => `<button onclick="showPhoto(${i})" aria-label="Show photo ${i + 1}"><img src="${src}" alt=""></button>`).join("")}</div>` : ""}
+    </div>
+    <div>
+      <h1>${p.name}</h1>
+      <div class="pprice">${money(p.price)}</div>
+      <p>${p.longDesc || p.desc}</p>
+      ${p.leadTime ? `<p class="lead"><strong>Availability:</strong> ${p.leadTime}</p>` : ""}
+      <button class="buy" onclick="addToCart('${p.id}')">Add to basket</button>
+      ${specs ? `<dl class="specs">${specs}</dl>` : ""}
+      <p class="small">Delivery and returns: see <a href="index.html#about">our delivery and returns information</a> and our <a href="terms.html">Terms</a>.</p>
+    </div>`;
+  if (imgs.length) showPhoto(0);
+}
+</script>
+</body>
+</html>
