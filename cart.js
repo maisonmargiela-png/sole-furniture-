@@ -1,5 +1,6 @@
 const CHECKOUT_EMAIL = "solejug@gmail.com";
 const CART_KEY = "sole-cart";
+const MARK = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#2F4A3A"/><rect x="12" y="22" width="40" height="8" rx="2" fill="#B8864B"/><rect x="17" y="30" width="6" height="18" rx="1.5" fill="#B8864B"/><rect x="41" y="30" width="6" height="18" rx="1.5" fill="#B8864B"/></svg>';
 const money = n => "€" + n.toLocaleString("en", { maximumFractionDigits: 2 });
 
 let cart = [];
@@ -102,5 +103,12 @@ document.addEventListener("DOMContentLoaded", () => {
       <p class="note">We’ll reply to confirm your order, delivery cost and payment details.</p>
     </aside>`);
   document.addEventListener("keydown", e => { if (e.key === "Escape") closeBasket(); });
+  const icon = document.createElement("link");
+  icon.rel = "icon";
+  icon.type = "image/svg+xml";
+  icon.href = "data:image/svg+xml," + encodeURIComponent(MARK);
+  document.head.appendChild(icon);
+  document.querySelectorAll(".logo").forEach(a => a.insertAdjacentHTML("afterbegin",
+    `<span style="display:inline-block;width:30px;height:30px;margin-right:10px;vertical-align:-8px">${MARK}</span>`));
   updateBasket();
 });
