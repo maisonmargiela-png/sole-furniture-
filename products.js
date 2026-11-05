@@ -3,6 +3,8 @@
    category: one or more category ids from the list below
    price: just the number (690 means €690)
    image: your photo, e.g. "images/oak-table.jpg". Leave "" for a colour block.
+   images: a list of photos for the product page (the first is the main one).
+   specs, longDesc, leadTime: optional extra details for the product page.
    Only list products you can actually supply. */
 
 const categories = [
@@ -18,7 +20,27 @@ const categories = [
 /* A category only shows in the menu once it has at least one product. */
 
 const products = [
-  { id: "oak-table", name: "Oak dining table", desc: "Solid oak table with a natural oil finish.", price: 690, category: ["dining"], color: "#8A6A44", image: "" },
+  {
+    id: "oak-table",
+    name: "Rustic oak extending dining table",
+    desc: "Seats 6 to 8. Butterfly leaf extension, satin oil finish.",
+    longDesc: "A sturdy rustic dining table that fits most households. It seats six at 140 cm and up to eight with the butterfly leaf out at 180 cm. Thick oak legs and top, rounded corners and lightly sanded edges give it a worn, lived-in look, and the satin oil-lacquer finish is hard wearing and easy to care for.",
+    price: 690,
+    category: ["dining"],
+    color: "#8A6A44",
+    images: ["images/IMG_6425.jpeg", "images/IMG_6426.jpeg", "images/IMG_6427.jpeg", "images/IMG_6428.jpeg", "images/IMG_6429.jpeg"],
+    leadTime: "[In stock / made to order: X weeks]",
+    specs: [
+      ["Size (closed)", "140 cm long × 90 cm wide × 77 cm high"],
+      ["Size (extended)", "180 cm long × 90 cm wide × 77 cm high"],
+      ["Seats", "6 people closed, up to 8 extended"],
+      ["Extension", "Butterfly leaf"],
+      ["Material", "Oak top and legs [confirm: solid oak or veneer]"],
+      ["Finish", "Medium to dark oak stain with a natural oil lacquer, satin finish"],
+      ["Style", "Rustic, with rounded corners and lightly sanded edges"],
+      ["Assembly", "Minor assembly: the legs bolt onto the base"]
+    ]
+  },
   { id: "dining-chairs", name: "Dining chairs, set of 2", desc: "Solid wood chairs with a curved back.", price: 260, category: ["dining", "chairs"], color: "#6B5238", image: "" },
   { id: "bookshelf", name: "Open bookshelf", desc: "Five open shelves for books and plants.", price: 240, category: ["living"], color: "#6E7F6A", image: "" },
   { id: "desk", name: "Writing desk", desc: "Solid wood desk with a cable gap and one drawer.", price: 390, category: ["office"], color: "#7A5C3E", image: "" },
