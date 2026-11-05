@@ -3,6 +3,83 @@ const CART_KEY = "sole-cart";
 const MARK = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#2F4A3A"/><rect x="12" y="22" width="40" height="8" rx="2" fill="#B8864B"/><rect x="17" y="30" width="6" height="18" rx="1.5" fill="#B8864B"/><rect x="41" y="30" width="6" height="18" rx="1.5" fill="#B8864B"/></svg>';
 const money = n => "€" + n.toLocaleString("en", { maximumFractionDigits: 2 });
 
+const MOON = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="currentColor"/></svg>';
+const SUN = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+const EXTRA_CSS = `
+header{position:relative}
+.catbar{display:none}
+header nav{gap:10px}
+header nav #basket-btn{margin-left:0}
+#theme-btn,#menu-btn{background:transparent;color:var(--ink);border:1px solid var(--stone);border-radius:4px;padding:9px 14px;font:inherit;font-weight:600;cursor:pointer;display:inline-flex;align-items:center}
+#theme-btn{padding:9px 10px}
+#menu-panel{display:none;position:absolute;top:100%;right:5vw;width:min(300px,90vw);max-height:75vh;overflow:auto;background:var(--white);border:1px solid var(--stone);border-radius:8px;box-shadow:0 10px 30px rgba(0,0,0,.18);padding:10px;z-index:9}
+#menu-panel.open{display:block}
+#menu-panel h4{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:#6b766f;margin:12px 10px 4px}
+#menu-panel a{display:block;padding:10px;border-radius:4px;text-decoration:none;font-weight:500}
+#menu-panel a:hover,#menu-panel a[aria-current]{background:var(--bg)}
+[data-theme="dark"]{--bg:#121714;--ink:#EEF0EC;--moss:#243B2F;--stone:#2E3933;--white:#1B231F;color-scheme:dark}
+[data-theme="dark"] .hero,[data-theme="dark"] .photo,[data-theme="dark"] .main-photo{color:#FBFCFA}
+[data-theme="dark"] .btn,[data-theme="dark"] #checkout-btn{color:#1F2A24}
+[data-theme="dark"] .buy:hover{background:#B8864B;color:#1F2A24}
+[data-theme="dark"] footer{background:#0D1210;color:#D9DDD5}
+[data-theme="dark"] .info p,[data-theme="dark"] .note,[data-theme="dark"] .lead,[data-theme="dark"] .small{color:#A9B3AC}
+[data-theme="dark"] #menu-panel h4{color:#8F9B93}
+`;
+
+let savedTheme = "light";
+try { savedTheme = localStorage.getItem("sole-theme") || "light"; } catch (e) {}
+document.documentElement.setAttribute("data-theme", savedTheme);
+
+function applyTheme(t) {
+  document.documentElement.setAttribute("data-theme", t);
+  const b = document.getElementById("theme-btn");
+  if (b) {
+    b.innerHTML = t === "dark" ? SUN : MOON;
+    b.setAttribute("aria-label", t === "dark" ? "Switch to light mode" : "Switch to dark mode");
+  }
+}
+function toggleTheme() {
+  const t = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+  try { localStorage.setItem("sole-theme", t); } catch (e) {}
+  applyTheme(t);
+}
+function toggleMenu(force) {
+  const panel = document.getElementById("menu-panel");
+  const btn = document.getElementById("menu-btn");
+  if (!panel || !btn) return;
+  const open = typeof force === "boolean" ? force : !panel.classList.contains("open");
+  panel.classList.toggle("open", open);
+  btn.setAttribute("aria-expanded", String(open));
+}
+function buildHeader() {
+  const style = document.createElement("style");
+  style.textContent = EXTRA_CSS;
+  document.head.appendChild(style);
+  const header = document.querySelector("header");
+  const nav = document.querySelector("header nav");
+  if (!header || !nav) return;
+  nav.innerHTML = `
+    <button id="theme-btn" onclick="toggleTheme()"></button>
+    <button id="menu-btn" aria-expanded="false" aria-controls="menu-panel" onclick="toggleMenu()">Menu</button>
+    <button id="basket-btn" onclick="openBasket()">Basket (<span class="basket-count">0</span>)</button>`;
+  const here = new URLSearchParams(location.search).get("c");
+  const onShop = location.pathname.endsWith("shop.html");
+  const used = categories.filter(c => products.some(p => p.category.includes(c.id)));
+  header.insertAdjacentHTML("beforeend", `
+    <div id="menu-panel" aria-label="Site menu">
+      <a href="index.html">Home</a>
+      <h4>Shop</h4>
+      <a href="shop.html"${onShop && !here ? ' aria-current="page"' : ""}>All products</a>
+      ${used.map(c => `<a href="shop.html?c=${c.id}"${c.id === here ? ' aria-current="page"' : ""}>${c.name}</a>`).join("")}
+      <h4>Information</h4>
+      <a href="index.html#about">About us</a>
+      <a href="index.html#contact">Contact</a>
+    </div>`);
+  applyTheme(document.documentElement.getAttribute("data-theme"));
+  document.querySelectorAll("#menu-panel a").forEach(a => a.addEventListener("click", () => toggleMenu(false)));
+  document.addEventListener("click", e => { if (!e.target.closest("#menu-panel, #menu-btn")) toggleMenu(false); });
+}
+
 let cart = [];
 try { cart = JSON.parse(localStorage.getItem(CART_KEY)) || []; } catch (e) { cart = []; }
 
@@ -102,7 +179,8 @@ document.addEventListener("DOMContentLoaded", () => {
       <button id="checkout-btn" onclick="checkout()">Send order by email</button>
       <p class="note">We’ll reply to confirm your order, delivery cost and payment details.</p>
     </aside>`);
-  document.addEventListener("keydown", e => { if (e.key === "Escape") closeBasket(); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") { closeBasket(); toggleMenu(false); } });
+  buildHeader();
   const icon = document.createElement("link");
   icon.rel = "icon";
   icon.type = "image/svg+xml";
