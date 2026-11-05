@@ -43,14 +43,14 @@ const products = [
   },
   {
     id: "dining-chairs",
-    name: "Bouclé dining chairs, set of 2",
+    name: "Cream bouclé dining chairs, set of 2",
     desc: "Curved cream bouclé seat and back on a slim metal frame. Sold as a pair.",
     longDesc: "A pair of softly curved dining chairs with a cream bouclé seat and back that look warm and inviting at the table. Slim, tapered legs keep the shape light, and a small brass-tone detail where the back meets the frame adds a finishing touch. The frame is metal with an oak-effect finish, so it is sturdy and easy to live with.",
     price: 260,
     category: ["dining", "chairs"],
     color: "#B9AD98",
     images: ["images/IMG_6431.jpeg", "images/IMG_6432.jpeg", "images/IMG_6433.jpeg", "images/IMG_6434.jpeg", "images/IMG_6435.jpeg"],
-    leadTime: "[In stock / made to order: X weeks]",
+    leadTime: "In stock",
     specs: [
       ["Size (each chair)", "51 cm wide × 57 cm deep × 77 cm high"],
       ["Sold as", "A pair (2 chairs)"],
@@ -58,7 +58,7 @@ const products = [
       ["Frame", "Metal with an oak-effect finish (not solid wood)"],
       ["Legs", "Slim and tapered"],
       ["Detail", "Brass-tone metal accent at the back"],
-      ["Assembly", "[Add: assembled or minor assembly]"]
+      ["Assembly", "Some assembly required"]
     ]
   },
   { id: "bookshelf", name: "Open bookshelf", desc: "Five open shelves for books and plants.", price: 240, category: ["living"], color: "#6E7F6A", image: "" },
