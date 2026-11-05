@@ -7,55 +7,20 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#EEF0EC;--ink:#1F2A24;--moss:#2F4A3A;--oak:#B8864B;--stone:#D9DDD5;--white:#FBFCFA}
-*{box-sizing:border-box;margin:0}
-body{font-family:"Instrument Sans",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
-a{color:inherit}
-:focus-visible{outline:3px solid var(--oak);outline-offset:3px}
-header{display:flex;justify-content:space-between;align-items:center;padding:18px 5vw;background:var(--white);border-bottom:1px solid var(--stone)}
-.logo{font-family:"Young Serif",serif;font-size:1.4rem;text-decoration:none}
-nav a{margin-left:20px;text-decoration:none;font-weight:500}
-nav a:hover{color:var(--oak)}
-.hero{background:var(--moss);color:var(--white);padding:9vh 5vw 10vh}
-.hero h1{font-family:"Young Serif",serif;font-weight:400;font-size:clamp(2.4rem,7vw,4.6rem);line-height:1.05;max-width:14ch}
-.hero p{max-width:46ch;margin:22px 0 30px;font-size:1.1rem;opacity:.9}
-.btn{display:inline-block;background:var(--oak);color:var(--ink);padding:13px 26px;border-radius:4px;font-weight:600;text-decoration:none}
-.btn:hover{background:#c99857}
-section{padding:64px 5vw}
-h2{font-family:"Young Serif",serif;font-weight:400;font-size:2rem;margin-bottom:28px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:28px}
-.card{background:var(--white);border-radius:4px;overflow:hidden;display:flex;flex-direction:column}
-.photo{aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;color:var(--white);font-size:.9rem}
-.photo img{width:100%;height:100%;object-fit:cover}
-.info{padding:18px;display:flex;flex-direction:column;gap:6px;flex:1}
-.info h3{font-size:1.1rem;font-weight:600}
-.info p{font-size:.95rem;color:#4b574f}
-.price{font-weight:600;font-size:1.15rem;margin-top:auto;padding-top:10px}
-.buy{margin-top:10px;text-align:center;background:var(--ink);color:var(--white);padding:11px;border-radius:4px;text-decoration:none;font-weight:500}
-.buy:hover{background:var(--moss)}
-.more{margin-top:32px}
-.about{background:var(--white)}
-.about p{max-width:60ch;margin-bottom:14px}
-.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px;margin-top:30px}
-.facts div{border-left:3px solid var(--oak);padding-left:14px}
-.facts strong{display:block}
-footer{padding:36px 5vw;background:var(--ink);color:var(--stone);font-size:.95rem}
-footer a{margin-right:18px}
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-
 <header>
-  <a class="logo" href="#top">Sole Furniture</a>
+  <a class="logo" href="index.html">Sole Furniture</a>
   <nav>
-    <a href="shop.html">Shop</a>
     <a href="#about">About</a>
     <a href="#contact">Contact</a>
+    <button id="basket-btn" onclick="openBasket()">Basket (<span class="basket-count">0</span>)</button>
   </nav>
 </header>
+<div class="catbar" id="catbar"></div>
 
-<main id="top">
+<main>
   <div class="hero">
     <h1>Furniture built to last a lifetime.</h1>
     <p>Solid wood tables, chairs and shelves, made with care and delivered to your door.</p>
@@ -63,7 +28,7 @@ footer a{margin-right:18px}
   </div>
 
   <section id="shop">
-    <h2>Shop</h2>
+    <h2>Featured</h2>
     <div class="grid" id="products"></div>
     <div class="more"><a class="btn" href="shop.html">View all products</a></div>
   </section>
@@ -72,7 +37,7 @@ footer a{margin-right:18px}
     <h2>About us</h2>
     <p>Sole Furniture makes solid wood furniture for everyday life. Each piece is built from [oak, walnut, etc.] and finished with care, so it looks good now and lasts for decades.</p>
     <p>We’re a small team, and we reply to every email ourselves. If you’re unsure about a size, finish or delivery date, just ask.</p>
-    <div class="facts" id="delivery">
+    <div class="facts">
       <div><strong>Delivery</strong>We deliver to [countries]. Orders ship within [X] working days and arrive in [X–X] working days. Delivery costs [€X], or is free over [€X]. You’ll get a tracking email when your order ships.</div>
       <div><strong>Returns</strong>Return any item within 14 days of receiving it for a full refund of the item price. Items must be unused and in their original packaging. Email us to start a return. Faulty or damaged items are replaced or refunded at no cost.</div>
       <div><strong>Materials</strong>[Describe your wood, finish and fabrics.] Natural wood varies in grain and colour, so no two pieces look exactly alike.</div>
@@ -86,6 +51,10 @@ footer a{margin-right:18px}
 </footer>
 
 <script src="products.js"></script>
-<script>renderProducts("products", 0, 4);</script>
+<script src="cart.js"></script>
+<script>
+renderCategoryBar(null);
+renderProducts("products", products.slice(0, 4));
+</script>
 </body>
 </html>
