@@ -73,6 +73,7 @@ function buildHeader() {
       ${used.map(c => `<a href="shop.html?c=${c.id}"${c.id === here ? ' aria-current="page"' : ""}>${c.name}</a>`).join("")}
       <h4>Information</h4>
       <a href="index.html#about">About us</a>
+      <a href="help.html">Delivery, returns &amp; FAQ</a>
       <a href="index.html#contact">Contact</a>
     </div>`);
   applyTheme(document.documentElement.getAttribute("data-theme"));
@@ -181,6 +182,8 @@ document.addEventListener("DOMContentLoaded", () => {
     </aside>`);
   document.addEventListener("keydown", e => { if (e.key === "Escape") { closeBasket(); toggleMenu(false); } });
   buildHeader();
+  const foot = document.querySelector("footer");
+  if (foot) foot.insertAdjacentHTML("beforeend", '<a href="help.html">Delivery &amp; FAQ</a>');
   const icon = document.createElement("link");
   icon.rel = "icon";
   icon.type = "image/svg+xml";
