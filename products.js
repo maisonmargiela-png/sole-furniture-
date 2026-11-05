@@ -90,4 +90,22 @@ const products = [
     category: ["office"],
     color: "#7A5C3E",
     images: ["images/IMG_6448.jpeg", "images/IMG_6449.jpeg", "images/IMG_6450.jpeg"],
-    leadTime: "In stock
+    leadTime: "In stock",
+    specs: [
+      ["Width", "100 cm"],
+      ["Depth and height", "[Add depth × height in cm]"],
+      ["Material", "Solid acacia wood"],
+      ["Finish", "[Add finish colour]"],
+      ["Storage", "Two drawers"],
+      ["Style", "Works with modern, rustic and industrial interiors"],
+      ["Weight", "[Add weight]"],
+      ["Assembly", "[Add: assembled or assembly needed]"]
+    ]
+  },
+  { id: "bedside", name: "Bedside table", desc: "One soft-close drawer and an open shelf.", price: 130, category: ["bedroom"], color: "#9A8B76", image: "" },
+  { id: "coffee-table", name: "Coffee table", desc: "Low solid wood table with rounded corners.", price: 210, category: ["living"], color: "#5E4A36", image: "" },
+  { id: "bench", name: "Storage bench", desc: "Seat with space inside for shoes or blankets.", price: 180, category: ["hallway", "chairs"], color: "#4F6558", image: "" },
+  { id: "sideboard", name: "Sideboard", desc: "Three doors and adjustable shelves inside.", price: 420, category: ["living", "dining"], color: "#8B735A", image: "" },
+  { id: "wall-shelves", name: "Wall shelf set", desc: "Set of three floating wooden shelves.", price: 85, category: ["living"], color: "#A39378", image: "" },
+  { id: "console", name: "Hallway console table", desc: "Slim solid wood table for narrow spaces.", price: 240, category: ["hallway"], color: "#6A5A47", image: "" }
+];
