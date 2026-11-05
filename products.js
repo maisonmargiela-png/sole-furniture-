@@ -41,7 +41,26 @@ const products = [
       ["Assembly", "Minor assembly: the legs bolt onto the base"]
     ]
   },
-  { id: "dining-chairs", name: "Dining chairs, set of 2", desc: "Solid wood chairs with a curved back.", price: 260, category: ["dining", "chairs"], color: "#6B5238", image: "" },
+  {
+    id: "dining-chairs",
+    name: "Bouclé dining chairs, set of 2",
+    desc: "Curved cream bouclé seat and back on a slim metal frame. Sold as a pair.",
+    longDesc: "A pair of softly curved dining chairs with a cream bouclé seat and back that look warm and inviting at the table. Slim, tapered legs keep the shape light, and a small brass-tone detail where the back meets the frame adds a finishing touch. The frame is metal with an oak-effect finish, so it is sturdy and easy to live with.",
+    price: 260,
+    category: ["dining", "chairs"],
+    color: "#B9AD98",
+    images: ["images/IMG_6431.jpeg", "images/IMG_6432.jpeg", "images/IMG_6433.jpeg", "images/IMG_6434.jpeg", "images/IMG_6435.jpeg"],
+    leadTime: "[In stock / made to order: X weeks]",
+    specs: [
+      ["Size (each chair)", "51 cm wide × 57 cm deep × 77 cm high"],
+      ["Sold as", "A pair (2 chairs)"],
+      ["Upholstery", "Cream (ecru) bouclé fabric on the seat and back"],
+      ["Frame", "Metal with an oak-effect finish (not solid wood)"],
+      ["Legs", "Slim and tapered"],
+      ["Detail", "Brass-tone metal accent at the back"],
+      ["Assembly", "[Add: assembled or minor assembly]"]
+    ]
+  },
   { id: "bookshelf", name: "Open bookshelf", desc: "Five open shelves for books and plants.", price: 240, category: ["living"], color: "#6E7F6A", image: "" },
   { id: "desk", name: "Writing desk", desc: "Solid wood desk with a cable gap and one drawer.", price: 390, category: ["office"], color: "#7A5C3E", image: "" },
   { id: "bedside", name: "Bedside table", desc: "One soft-close drawer and an open shelf.", price: 130, category: ["bedroom"], color: "#9A8B76", image: "" },
