@@ -7,23 +7,22 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 <style>
-:root{--bg:#EEF0EC;--ink:#1F2A24;--oak:#B8864B;--stone:#D9DDD5;--white:#FBFCFA}
-*{box-sizing:border-box;margin:0}
-body{font-family:"Instrument Sans",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
-a{color:inherit}
-:focus-visible{outline:3px solid var(--oak);outline-offset:3px}
-header{padding:18px 5vw;background:var(--white);border-bottom:1px solid var(--stone)}
-.logo{font-family:"Young Serif",serif;font-size:1.4rem;text-decoration:none}
 main{max-width:70ch;margin:0 auto;padding:48px 5vw 64px}
 h1{font-family:"Young Serif",serif;font-weight:400;font-size:2.2rem;margin-bottom:8px}
-h2{font-size:1.15rem;font-weight:600;margin:30px 0 8px}
+h2{font-family:inherit;font-weight:600;font-size:1.15rem;margin:30px 0 8px}
 p{margin-bottom:10px}
+main a{text-decoration:underline}
 .updated{color:#4b574f;margin-bottom:20px}
+[data-theme="dark"] .updated{color:#A9B3AC}
 </style>
 </head>
 <body>
-<header><a class="logo" href="index.html">Sole Furniture</a></header>
+<header>
+  <a class="logo" href="index.html">Sole Furniture</a>
+  <nav></nav>
+</header>
 <main>
 <h1>Cookie Notice</h1>
 <p class="updated">Last updated: [date]</p>
@@ -33,7 +32,8 @@ p{margin-bottom:10px}
 
 <h2>What we use</h2>
 <p>Our website does not set any cookies of its own. We do not use analytics, advertising or tracking cookies.</p>
-<p>When you pay, you are sent to the secure checkout of our payment provider, [Stripe]. Stripe may set cookies that are needed to process your payment and prevent fraud. These are essential, and are covered by Stripe’s own cookie policy.</p>
+<p>It does use your browser’s local storage to remember your basket and your light or dark mode choice. This stays on your device, we do not receive it, and it is not used to track you.</p>
+<p>If you pay online through our payment provider, [Stripe], it may set cookies that are needed to process your payment and prevent fraud. These are essential, and are covered by Stripe’s own cookie policy.</p>
 
 <h2>Your choices</h2>
 <p>You can delete or block cookies in your browser settings. Blocking essential cookies may stop checkout from working.</p>
@@ -44,5 +44,11 @@ p{margin-bottom:10px}
 <h2>Contact</h2>
 <p>Questions? Email <a href="mailto:solejug@gmail.com">solejug@gmail.com</a>. See also our <a href="privacy.html">Privacy Policy</a>.</p>
 </main>
+<footer id="contact">
+  <p style="margin-bottom:12px">Questions? Email <a href="mailto:solejug@gmail.com">solejug@gmail.com</a></p>
+  <a href="terms.html">Terms</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a>
+</footer>
+<script src="products.js"></script>
+<script src="cart.js"></script>
 </body>
 </html>
