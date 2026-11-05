@@ -61,7 +61,26 @@ const products = [
       ["Assembly", "Some assembly required"]
     ]
   },
-  { id: "bookshelf", name: "Open bookshelf", desc: "Five open shelves for books and plants.", price: 240, category: ["living"], color: "#6E7F6A", image: "" },
+  {
+    id: "bookshelf",
+    name: "Tall five-tier bookshelf",
+    desc: "Five open shelves on a metal frame. 180 cm high, just 30 cm deep.",
+    longDesc: "A tall bookcase that gives you plenty of open storage in a small footprint. At 180 cm high and only 30 cm deep it sits neatly against a wall, with five open tiers for books, baskets and plants. The shelves are engineered wood, supported by a sturdy iron-tube frame.",
+    price: 240,
+    category: ["living"],
+    color: "#6E7F6A",
+    images: ["images/IMG_6441.jpeg", "images/IMG_6442.jpeg", "images/IMG_6443.jpeg"],
+    leadTime: "In stock",
+    specs: [
+      ["Overall size", "105 cm wide × 30 cm deep × 180 cm high"],
+      ["Shelf space", "105 cm wide × 27.5 cm deep × 36.5 cm high"],
+      ["Shelves", "5 tiers"],
+      ["Material", "Engineered wood (particle board) shelves with an iron-tube frame"],
+      ["Colour", "[Add colour]"],
+      ["Weight", "29.2 kg"],
+      ["Assembly", "[Add: assembly needed, and whether wall fixings are included]"]
+    ]
+  },
   { id: "desk", name: "Writing desk", desc: "Solid wood desk with a cable gap and one drawer.", price: 390, category: ["office"], color: "#7A5C3E", image: "" },
   { id: "bedside", name: "Bedside table", desc: "One soft-close drawer and an open shelf.", price: 130, category: ["bedroom"], color: "#9A8B76", image: "" },
   { id: "coffee-table", name: "Coffee table", desc: "Low solid wood table with rounded corners.", price: 210, category: ["living"], color: "#5E4A36", image: "" },
