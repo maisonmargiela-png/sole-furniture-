@@ -4,49 +4,46 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Product – Sole Furniture</title>
+<meta name="theme-color" content="#24402F">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <style>
-.product{display:grid;grid-template-columns:1fr;gap:28px}
-@media(min-width:800px){.product{grid-template-columns:1.2fr 1fr}}
-.main-photo{aspect-ratio:4/3;border-radius:4px;overflow:hidden;display:flex;align-items:center;justify-content:center;color:var(--white)}
-.main-photo img{width:100%;height:100%;object-fit:cover;display:block}
-.thumbs{display:flex;gap:8px;margin-top:10px;overflow-x:auto}
-.thumbs button{flex:0 0 76px;padding:0;border:2px solid transparent;background:none;border-radius:4px;cursor:pointer}
-.thumbs button[aria-current="true"]{border-color:var(--oak)}
-.thumbs img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;border-radius:2px}
+.product{display:grid;grid-template-columns:1fr;gap:30px}
+@media(min-width:860px){.product{grid-template-columns:1.1fr 1fr}}
+.thumbs{display:flex;gap:10px;margin-top:12px;overflow-x:auto;padding-bottom:4px}
+.thumbs button{flex:0 0 78px;padding:0;border:2px solid transparent;background:var(--white);border-radius:14px;overflow:hidden;cursor:pointer;opacity:.7;transition:opacity .2s,border-color .2s}
+.thumbs button[aria-current="true"]{border-color:var(--oak);opacity:1}
+.thumbs img{width:100%;aspect-ratio:1/1;object-fit:contain;display:block}
 .back{display:inline-block;margin-bottom:18px;font-weight:500}
-.product h1{font-family:"Young Serif",serif;font-weight:400;font-size:2rem;line-height:1.15}
-.pprice{font-size:1.6rem;font-weight:600;margin:10px 0}
-.lead{margin:8px 0 14px;color:#4b574f}
-.product .buy{max-width:340px}
-.specs{margin-top:26px}
+.product h1{font-size:clamp(1.7rem,4vw,2.4rem);line-height:1.15}
+.pprice{font-size:1.7rem;font-weight:600;margin:10px 0}
+.lead{margin:10px 0 14px}
+.specs{margin-top:22px}
 .specs div{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--stone)}
 .specs dt{font-weight:600;flex:0 0 36%}
 .specs dd{margin:0;flex:1}
-.small{margin-top:20px;font-size:.95rem;color:#4b574f}
+.buybox{margin-top:26px;padding:18px;background:var(--white);border-radius:22px;box-shadow:var(--shadow)}
+.buybox .buy{margin:0;padding:14px;font-size:1.05rem}
+.ask{display:inline-block;margin-top:14px;font-weight:600;text-decoration:underline}
+.small{margin-top:18px;font-size:.95rem;color:#4b574f}
 </style>
 </head>
 <body>
-<header>
-  <a class="logo" href="index.html">Sole Furniture</a>
-  <nav>
-    <a href="index.html#about">About</a>
-    <a href="#contact">Contact</a>
-    <button id="basket-btn" onclick="openBasket()">Basket (<span class="basket-count">0</span>)</button>
-  </nav>
-</header>
-<div class="catbar" id="catbar"></div>
+<header></header>
 <main>
   <section>
     <a class="back" href="shop.html">← All products</a>
     <div class="product" id="product"></div>
   </section>
+  <section id="related-wrap" style="display:none">
+    <h2>You might also like</h2>
+    <div class="grid" id="related"></div>
+  </section>
 </main>
 <footer id="contact">
-  <p style="margin-bottom:12px">Questions? Email <a href="mailto:solejug@gmail.com">solejug@gmail.com</a></p>
+  <p style="margin-bottom:12px">Questions? Email <a href="mailto:solejug@gmail.com">solejug@gmail.com</a>. We reply within 24 hours on working days.</p>
   <a href="terms.html">Terms</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a>
 </footer>
 <script src="products.js"></script>
@@ -54,36 +51,66 @@
 <script>
 const p = products.find(x => x.id === new URLSearchParams(location.search).get("id"));
 const root = document.getElementById("product");
-renderCategoryBar(null);
+let imgs = [], idx = 0;
 
-function showPhoto(i) {
-  const imgs = p.images;
-  document.getElementById("main-photo").innerHTML = `<img src="${imgs[i]}" alt="${p.name}, photo ${i + 1}">`;
-  document.querySelectorAll(".thumbs button").forEach((b, n) => b.setAttribute("aria-current", n === i));
+function show(i) {
+  if (!imgs.length) return;
+  idx = (i + imgs.length) % imgs.length;
+  const img = document.getElementById("gal-img");
+  img.src = imgs[idx];
+  img.alt = p.name + ", photo " + (idx + 1);
+  const count = document.getElementById("gal-count");
+  if (count) count.textContent = (idx + 1) + " / " + imgs.length;
+  document.querySelectorAll(".thumbs button").forEach((b, n) => b.setAttribute("aria-current", n === idx));
 }
 
 if (!p) {
   root.innerHTML = "<p>Sorry, we couldn’t find that product. <a href='shop.html'>Back to the shop</a></p>";
 } else {
   document.title = p.name + " – Sole Furniture";
-  const imgs = p.images && p.images.length ? p.images : (p.image ? [p.image] : []);
-  p.images = imgs;
+  imgs = p.images && p.images.length ? p.images : (p.image ? [p.image] : []);
+  const many = imgs.length > 1;
   const specs = (p.specs || []).map(s => `<div><dt>${s[0]}</dt><dd>${s[1]}</dd></div>`).join("");
+  const ask = "mailto:" + CHECKOUT_EMAIL + "?subject=" + encodeURIComponent("Question about " + p.name);
   root.innerHTML = `
     <div>
-      <div class="main-photo" id="main-photo" style="background:${p.color}">${imgs.length ? "" : "<span>Add photo</span>"}</div>
-      ${imgs.length > 1 ? `<div class="thumbs">${imgs.map((src, i) => `<button onclick="showPhoto(${i})" aria-label="Show photo ${i + 1}"><img src="${src}" alt=""></button>`).join("")}</div>` : ""}
+      <div class="gal">
+        <div class="gal-main" id="gal-main">${imgs.length ? `<img id="gal-img" src="${imgs[0]}" alt="${p.name}">` : "<span style='opacity:.5'>Photo coming soon</span>"}</div>
+        ${many ? `<button class="arrow prev" onclick="show(idx - 1)" aria-label="Previous photo">‹</button><button class="arrow next" onclick="show(idx + 1)" aria-label="Next photo">›</button><span class="count" id="gal-count"></span>` : ""}
+      </div>
+      ${many ? `<div class="thumbs">${imgs.map((src, i) => `<button onclick="show(${i})" aria-label="Show photo ${i + 1}"><img src="${src}" alt=""></button>`).join("")}</div>` : ""}
     </div>
     <div>
       <h1>${p.name}</h1>
       <div class="pprice">${money(p.price)}</div>
       <p>${p.longDesc || p.desc}</p>
       ${p.leadTime ? `<p class="lead"><strong>Availability:</strong> ${p.leadTime}</p>` : ""}
-      <button class="buy" onclick="addToCart('${p.id}')">Add to basket</button>
       ${specs ? `<dl class="specs">${specs}</dl>` : ""}
-      <p class="small">Delivery and returns: see <a href="index.html#about">our delivery and returns information</a> and our <a href="terms.html">Terms</a>.</p>
+      <div class="buybox">
+        <button class="buy" onclick="addToCart('${p.id}')">Add to basket</button>
+        <a class="ask" href="${ask}">Any questions about the ${p.name}? Ask us</a>
+      </div>
+      <p class="small">Free delivery on orders over €300. 14-day returns. See <a href="help.html">delivery, returns and FAQ</a>.</p>
     </div>`;
-  if (imgs.length) showPhoto(0);
+  if (imgs.length) show(0);
+  if (many) {
+    const g = document.getElementById("gal-main");
+    let x0 = 0;
+    g.addEventListener("touchstart", e => { x0 = e.touches[0].clientX; }, { passive: true });
+    g.addEventListener("touchend", e => {
+      const d = e.changedTouches[0].clientX - x0;
+      if (Math.abs(d) > 40) show(idx + (d < 0 ? 1 : -1));
+    }, { passive: true });
+    document.addEventListener("keydown", e => {
+      if (e.key === "ArrowLeft") show(idx - 1);
+      if (e.key === "ArrowRight") show(idx + 1);
+    });
+  }
+  const related = products.filter(x => x.id !== p.id && x.category.some(c => p.category.includes(c))).slice(0, 4);
+  if (related.length) {
+    document.getElementById("related-wrap").style.display = "block";
+    renderProducts("related", related);
+  }
 }
 </script>
 </body>
