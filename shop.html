@@ -4,39 +4,95 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Shop – Sole Furniture</title>
+<meta name="theme-color" content="#24402F">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<style>
+.shop-top{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:18px}
+.shop-top h2{margin:0}
+#count{opacity:.7}
+.filters{background:var(--white);border-radius:22px;box-shadow:var(--shadow);margin-bottom:26px}
+.filters summary{cursor:pointer;padding:14px 20px;font-weight:600;list-style:none}
+.filters summary::-webkit-details-marker{display:none}
+.filters summary::after{content:"+";float:right;font-size:1.3rem;line-height:1}
+.filters[open] summary::after{content:"–"}
+.fbody{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:18px 26px;padding:4px 20px 20px}
+.fgroup h4{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;opacity:.7}
+.fgroup label{display:flex;align-items:center;gap:8px;padding:4px 0;cursor:pointer}
+.fgroup input{accent-color:var(--oak);width:18px;height:18px}
+#sort{width:100%;padding:10px 12px;border-radius:12px;border:1px solid var(--stone);background:var(--bg);color:var(--ink);font:inherit}
+#clear{border:0;background:none;color:var(--ink);text-decoration:underline;font:inherit;font-weight:600;cursor:pointer;padding:0;align-self:end;text-align:left}
+.nomatch{max-width:52ch}
+</style>
 </head>
 <body>
-<header>
-  <a class="logo" href="index.html">Sole Furniture</a>
-  <nav>
-    <a href="index.html#about">About</a>
-    <a href="#contact">Contact</a>
-    <button id="basket-btn" onclick="openBasket()">Basket (<span class="basket-count">0</span>)</button>
-  </nav>
-</header>
-<div class="catbar" id="catbar"></div>
+<header></header>
 <main>
   <section>
-    <h2 id="page-title">All products</h2>
+    <div class="shop-top"><h2 id="page-title">All products</h2><span id="count"></span></div>
+    <details class="filters" id="filters">
+      <summary>Filter &amp; sort</summary>
+      <div class="fbody" id="fbody"></div>
+    </details>
     <div class="grid" id="products"></div>
   </section>
 </main>
 <footer id="contact">
-  <p style="margin-bottom:12px">Questions? Email <a href="mailto:solejug@gmail.com">solejug@gmail.com</a></p>
+  <p style="margin-bottom:12px">Questions? Email <a href="mailto:solejug@gmail.com">solejug@gmail.com</a>. We reply within 24 hours on working days.</p>
   <a href="terms.html">Terms</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a>
 </footer>
 <script src="products.js"></script>
 <script src="cart.js"></script>
+<script src="search.js"></script>
 <script>
-const wanted = new URLSearchParams(location.search).get("c");
-const cat = categories.find(c => c.id === wanted);
-document.getElementById("page-title").textContent = cat ? cat.name : "All products";
-renderCategoryBar(cat ? cat.id : null);
-renderProducts("products", cat ? products.filter(p => p.category.includes(cat.id)) : products);
+const params = new URLSearchParams(location.search);
+const q = (params.get("q") || "").trim();
+const cat = categories.find(c => c.id === params.get("c"));
+const base = q ? SoleSearch.search(q) : (cat ? products.filter(p => p.category.includes(cat.id)) : products);
+document.getElementById("page-title").textContent = q ? "Results for “" + q + "”" : (cat ? cat.name : "All products");
+
+const ORDER = ["Small", "Medium", "Large"];
+const groups = [
+  { key: "size", label: "Size", vals: p => (p.size ? [p.size] : []) },
+  { key: "colour", label: "Colour", vals: p => p.colour || [] },
+  { key: "material", label: "Material", vals: p => p.material || [] }
+];
+function options(g) {
+  const list = [...new Set(base.flatMap(g.vals))];
+  return g.key === "size" ? list.sort((a, b) => ORDER.indexOf(a) - ORDER.indexOf(b)) : list.sort();
+}
+document.getElementById("fbody").innerHTML =
+  groups.map(g => {
+    const opts = options(g);
+    return opts.length ? `<div class="fgroup"><h4>${g.label}</h4>${opts.map(o => `<label><input type="checkbox" name="${g.key}" value="${o}"> ${o}</label>`).join("")}</div>` : "";
+  }).join("")
+  + `<div class="fgroup"><h4>Sort by</h4><select id="sort"><option value="">Featured</option><option value="low">Price: low to high</option><option value="high">Price: high to low</option></select></div>`
+  + `<button id="clear" type="button">Clear filters</button>`;
+
+function apply() {
+  const sel = {};
+  groups.forEach(g => { sel[g.key] = [...document.querySelectorAll(`input[name="${g.key}"]:checked`)].map(i => i.value); });
+  let list = base.filter(p => groups.every(g => !sel[g.key].length || g.vals(p).some(v => sel[g.key].includes(v))));
+  const sort = document.getElementById("sort").value;
+  if (sort === "low") list = list.slice().sort((a, b) => a.price - b.price);
+  if (sort === "high") list = list.slice().sort((a, b) => b.price - a.price);
+  document.getElementById("count").textContent = list.length + (list.length === 1 ? " product" : " products");
+  if (!list.length) {
+    document.getElementById("products").innerHTML = "<p class='nomatch'>No products match. Try removing a filter, or <a href='contact.html' style='text-decoration:underline'>ask us</a> and we will help you find the right piece.</p>";
+  } else {
+    renderProducts("products", list);
+  }
+}
+document.getElementById("fbody").addEventListener("change", apply);
+document.getElementById("clear").addEventListener("click", () => {
+  document.querySelectorAll("#fbody input").forEach(i => { i.checked = false; });
+  document.getElementById("sort").value = "";
+  apply();
+});
+if (window.innerWidth >= 860) document.getElementById("filters").open = true;
+apply();
 </script>
 </body>
 </html>
