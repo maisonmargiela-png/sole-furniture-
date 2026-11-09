@@ -1,29 +1,17 @@
 const CHECKOUT_EMAIL = "solejug@gmail.com";
 const CART_KEY = "sole-cart";
-const MARK = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#2F4A3A"/><rect x="12" y="22" width="40" height="8" rx="2" fill="#B8864B"/><rect x="17" y="30" width="6" height="18" rx="1.5" fill="#B8864B"/><rect x="41" y="30" width="6" height="18" rx="1.5" fill="#B8864B"/></svg>';
+const MARK = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="18" fill="#24402F"/><path d="M18 36a14 14 0 0 1 28 0z" fill="#E0A66F"/><rect x="11" y="38" width="42" height="5" rx="2.5" fill="#F6F2EA"/><rect x="17" y="43" width="4" height="11" rx="1.5" fill="#F6F2EA"/><rect x="43" y="43" width="4" height="11" rx="1.5" fill="#F6F2EA"/></svg>';
 const money = n => "€" + n.toLocaleString("en", { maximumFractionDigits: 2 });
 
 const MOON = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="currentColor"/></svg>';
 const SUN = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
 const EXTRA_CSS = `
-header{position:relative}
 .catbar{display:none}
-header nav{gap:10px}
-header nav #basket-btn{margin-left:0}
-#theme-btn,#menu-btn{background:transparent;color:var(--ink);border:1px solid var(--stone);border-radius:4px;padding:9px 14px;font:inherit;font-weight:600;cursor:pointer;display:inline-flex;align-items:center}
-#theme-btn{padding:9px 10px}
-#menu-panel{display:none;position:absolute;top:100%;right:5vw;width:min(300px,90vw);max-height:75vh;overflow:auto;background:var(--white);border:1px solid var(--stone);border-radius:8px;box-shadow:0 10px 30px rgba(0,0,0,.18);padding:10px;z-index:9}
-#menu-panel.open{display:block}
-#menu-panel h4{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:#6b766f;margin:12px 10px 4px}
-#menu-panel a{display:block;padding:10px;border-radius:4px;text-decoration:none;font-weight:500}
-#menu-panel a:hover,#menu-panel a[aria-current]{background:var(--bg)}
-[data-theme="dark"]{--bg:#121714;--ink:#EEF0EC;--moss:#243B2F;--stone:#2E3933;--white:#1B231F;color-scheme:dark}
-[data-theme="dark"] .hero,[data-theme="dark"] .photo,[data-theme="dark"] .main-photo{color:#FBFCFA}
-[data-theme="dark"] .btn,[data-theme="dark"] #checkout-btn{color:#1F2A24}
-[data-theme="dark"] .buy:hover{background:#B8864B;color:#1F2A24}
-[data-theme="dark"] footer{background:#0D1210;color:#D9DDD5}
-[data-theme="dark"] .info p,[data-theme="dark"] .note,[data-theme="dark"] .lead,[data-theme="dark"] .small{color:#A9B3AC}
-[data-theme="dark"] #menu-panel h4{color:#8F9B93}
+.tabs a{padding:8px 10px;font-size:.88rem}
+.card.reveal.in{transition:transform .3s,box-shadow .3s,opacity .7s}
+@media(min-width:1000px) and (max-width:1239px){.tabs{display:none}#menu-btn{display:inline-flex}.actions{margin-left:auto}}
+@media(max-width:480px){header{padding:10px 4vw}.wm b{font-size:1.4rem}#theme-btn{padding:8px 9px}#menu-btn,#basket-btn{padding:8px 12px;font-size:.88rem}.actions{gap:6px}}
+[data-theme="dark"] .hero,[data-theme="dark"] .page-hero,[data-theme="dark"] .slide{color:#fff}
 `;
 
 let savedTheme = "light";
@@ -51,34 +39,60 @@ function toggleMenu(force) {
   panel.classList.toggle("open", open);
   btn.setAttribute("aria-expanded", String(open));
 }
+function addLink(href) {
+  const l = document.createElement("link");
+  l.rel = "stylesheet";
+  l.href = href;
+  document.head.appendChild(l);
+}
 function buildHeader() {
+  addLink("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,600&display=swap");
+  addLink("theme.css");
   const style = document.createElement("style");
   style.textContent = EXTRA_CSS;
   document.head.appendChild(style);
   const header = document.querySelector("header");
-  const nav = document.querySelector("header nav");
-  if (!header || !nav) return;
-  nav.innerHTML = `
-    <button id="theme-btn" onclick="toggleTheme()"></button>
-    <button id="menu-btn" aria-expanded="false" aria-controls="menu-panel" onclick="toggleMenu()">Menu</button>
-    <button id="basket-btn" onclick="openBasket()">Basket (<span class="basket-count">0</span>)</button>`;
+  if (!header) return;
   const here = new URLSearchParams(location.search).get("c");
-  const onShop = location.pathname.endsWith("shop.html");
+  const page = location.pathname.split("/").pop() || "index.html";
+  const onShop = page === "shop.html";
   const used = categories.filter(c => products.some(p => p.category.includes(c.id)));
-  header.insertAdjacentHTML("beforeend", `
+  const cur = on => on ? ' aria-current="page"' : "";
+  const tabs = `<a href="shop.html"${cur(onShop && !here)}>Shop</a>`
+    + used.map(c => `<a href="shop.html?c=${c.id}"${cur(onShop && here === c.id)}>${c.name}</a>`).join("")
+    + `<a href="about.html"${cur(page === "about.html")}>About</a><a href="index.html#contact">Contact</a>`;
+  header.innerHTML = `
+    <a class="logo" href="index.html" aria-label="Sole Furniture home">
+      <span style="display:block;width:36px;height:36px">${MARK}</span>
+      <span class="wm"><b>Sole</b><small>FURNITURE</small></span>
+    </a>
+    <nav class="tabs" aria-label="Main">${tabs}</nav>
+    <div class="actions">
+      <button id="theme-btn" onclick="toggleTheme()"></button>
+      <button id="menu-btn" aria-expanded="false" aria-controls="menu-panel" onclick="toggleMenu()">Menu</button>
+      <button id="basket-btn" onclick="openBasket()">Basket (<span class="basket-count">0</span>)</button>
+    </div>
     <div id="menu-panel" aria-label="Site menu">
       <a href="index.html">Home</a>
       <h4>Shop</h4>
-      <a href="shop.html"${onShop && !here ? ' aria-current="page"' : ""}>All products</a>
-      ${used.map(c => `<a href="shop.html?c=${c.id}"${c.id === here ? ' aria-current="page"' : ""}>${c.name}</a>`).join("")}
+      <a href="shop.html"${cur(onShop && !here)}>All products</a>
+      ${used.map(c => `<a href="shop.html?c=${c.id}"${cur(onShop && here === c.id)}>${c.name}</a>`).join("")}
       <h4>Information</h4>
-      <a href="index.html#about">About us</a>
-      <a href="help.html">Delivery, returns &amp; FAQ</a>
+      <a href="about.html"${cur(page === "about.html")}>About us</a>
+      <a href="help.html"${cur(page === "help.html")}>Delivery, returns &amp; FAQ</a>
       <a href="index.html#contact">Contact</a>
-    </div>`);
+    </div>`;
   applyTheme(document.documentElement.getAttribute("data-theme"));
   document.querySelectorAll("#menu-panel a").forEach(a => a.addEventListener("click", () => toggleMenu(false)));
   document.addEventListener("click", e => { if (!e.target.closest("#menu-panel, #menu-btn")) toggleMenu(false); });
+}
+function initReveal() {
+  const items = document.querySelectorAll(".card, .room, .values > div, main section > h2, .facts > div");
+  if (!("IntersectionObserver" in window)) { items.forEach(e => e.classList.add("in")); return; }
+  const io = new IntersectionObserver(entries => entries.forEach(en => {
+    if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
+  }), { threshold: 0.12 });
+  items.forEach(e => { e.classList.add("reveal"); io.observe(e); });
 }
 
 let cart = [];
@@ -154,7 +168,7 @@ function renderProducts(containerId, list) {
   box.innerHTML = list.map(p => `
     <article class="card">
       <a href="product.html?id=${p.id}" style="text-decoration:none;color:inherit">
-        <div class="photo" style="background:${p.color}">${photoOf(p) ? `<img src="${photoOf(p)}" alt="${p.name}">` : "<span>Add photo</span>"}</div>
+        <div class="photo" style="background:${p.color}">${photoOf(p) ? `<img src="${photoOf(p)}" alt="${p.name}">` : "<span>Photo coming soon</span>"}</div>
       </a>
       <div class="info">
         <h3><a href="product.html?id=${p.id}" style="text-decoration:none;color:inherit">${p.name}</a></h3>
@@ -166,6 +180,7 @@ function renderProducts(containerId, list) {
 }
 function renderCategoryBar(activeId) {
   const bar = document.getElementById("catbar");
+  if (!bar) return;
   const used = categories.filter(c => products.some(p => p.category.includes(c.id)));
   bar.innerHTML = `<a href="shop.html"${activeId ? "" : ' aria-current="page"'}>All</a>`
     + used.map(c => `<a href="shop.html?c=${c.id}"${c.id === activeId ? ' aria-current="page"' : ""}>${c.name}</a>`).join("");
@@ -189,7 +204,6 @@ document.addEventListener("DOMContentLoaded", () => {
   icon.type = "image/svg+xml";
   icon.href = "data:image/svg+xml," + encodeURIComponent(MARK);
   document.head.appendChild(icon);
-  document.querySelectorAll(".logo").forEach(a => a.insertAdjacentHTML("afterbegin",
-    `<span style="display:inline-block;width:30px;height:30px;margin-right:10px;vertical-align:-8px">${MARK}</span>`));
+  initReveal();
   updateBasket();
 });
