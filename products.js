@@ -5,6 +5,8 @@
    image: your photo, e.g. "images/oak-table.jpg". Leave "" for a colour block.
    images: a list of photos for the product page (the first is the main one).
    specs, longDesc, leadTime: optional extra details for the product page.
+   size: "Small", "Medium" or "Large" (used by the filters).
+   colour: list of colours, e.g. ["Brown"]. material: list, e.g. ["Oak"]. (Used by search and filters.)
    Only list products you can actually supply. */
 
 const categories = [
@@ -26,6 +28,9 @@ const products = [
     desc: "Seats 6 to 8. Butterfly leaf extension, satin oil finish.",
     longDesc: "A sturdy rustic dining table that fits most households. It seats six at 140 cm and up to eight with the butterfly leaf out at 180 cm. Thick oak legs and top, rounded corners and lightly sanded edges give it a worn, lived-in look, and the satin oil-lacquer finish is hard wearing and easy to care for.",
     price: 690,
+    size: "Large",
+    colour: ["Brown"],
+    material: ["Oak"],
     category: ["dining"],
     color: "#8A6A44",
     images: ["images/IMG_6425.jpeg", "images/IMG_6426.jpeg", "images/IMG_6427.jpeg", "images/IMG_6428.jpeg", "images/IMG_6429.jpeg"],
@@ -47,6 +52,9 @@ const products = [
     desc: "Curved cream bouclé seat and back on a slim metal frame. Sold as a pair.",
     longDesc: "A pair of softly curved dining chairs with a cream bouclé seat and back that look warm and inviting at the table. Slim, tapered legs keep the shape light, and a small brass-tone detail where the back meets the frame adds a finishing touch. The frame is metal with an oak-effect finish, so it is sturdy and easy to live with.",
     price: 260,
+    size: "Small",
+    colour: ["Cream"],
+    material: ["Fabric", "Metal"],
     category: ["dining", "chairs"],
     color: "#B9AD98",
     images: ["images/IMG_6431.jpeg", "images/IMG_6432.jpeg", "images/IMG_6433.jpeg", "images/IMG_6434.jpeg", "images/IMG_6435.jpeg"],
@@ -67,6 +75,8 @@ const products = [
     desc: "Five open shelves on a metal frame. 180 cm high, just 30 cm deep.",
     longDesc: "A tall bookcase that gives you plenty of open storage in a small footprint. At 180 cm high and only 30 cm deep it sits neatly against a wall, with five open tiers for books, baskets and plants. The shelves are engineered wood, supported by a sturdy iron-tube frame.",
     price: 240,
+    size: "Medium",
+    material: ["Engineered wood", "Metal"],
     category: ["living"],
     color: "#6E7F6A",
     images: ["images/IMG_6441.jpeg", "images/IMG_6442.jpeg", "images/IMG_6443.jpeg"],
@@ -87,6 +97,8 @@ const products = [
     desc: "Solid acacia desk, 100 cm wide, with two drawers for storage.",
     longDesc: "A compact desk made from acacia wood, chosen for its distinctive grain. At 100 cm wide it suits smaller rooms and still leaves space for a laptop, notebook or paperwork, while two drawers keep your essentials tidy. The finish shows off the character of the wood, and the style sits happily in modern, rustic and industrial rooms.",
     price: 390,
+    size: "Medium",
+    material: ["Acacia"],
     category: ["office"],
     color: "#7A5C3E",
     images: ["images/IMG_6448.jpeg", "images/IMG_6449.jpeg", "images/IMG_6450.jpeg"],
@@ -102,10 +114,10 @@ const products = [
       ["Assembly", "[Add: assembled or assembly needed]"]
     ]
   },
-  { id: "bedside", name: "Bedside table", desc: "One soft-close drawer and an open shelf.", price: 130, category: ["bedroom"], color: "#9A8B76", image: "" },
-  { id: "coffee-table", name: "Coffee table", desc: "Low solid wood table with rounded corners.", price: 210, category: ["living"], color: "#5E4A36", image: "" },
-  { id: "bench", name: "Storage bench", desc: "Seat with space inside for shoes or blankets.", price: 180, category: ["hallway", "chairs"], color: "#4F6558", image: "" },
-  { id: "sideboard", name: "Sideboard", desc: "Three doors and adjustable shelves inside.", price: 420, category: ["living", "dining"], color: "#8B735A", image: "" },
-  { id: "wall-shelves", name: "Wall shelf set", desc: "Set of three floating wooden shelves.", price: 85, category: ["living"], color: "#A39378", image: "" },
-  { id: "console", name: "Hallway console table", desc: "Slim solid wood table for narrow spaces.", price: 240, category: ["hallway"], color: "#6A5A47", image: "" }
+  { id: "bedside", name: "Bedside table", desc: "One soft-close drawer and an open shelf.", price: 130, size: "Small", category: ["bedroom"], color: "#9A8B76", image: "" },
+  { id: "coffee-table", name: "Coffee table", desc: "Low solid wood table with rounded corners.", price: 210, size: "Medium", category: ["living"], color: "#5E4A36", image: "" },
+  { id: "bench", name: "Storage bench", desc: "Seat with space inside for shoes or blankets.", price: 180, size: "Medium", category: ["hallway", "chairs"], color: "#4F6558", image: "" },
+  { id: "sideboard", name: "Sideboard", desc: "Three doors and adjustable shelves inside.", price: 420, size: "Large", category: ["living", "dining"], color: "#8B735A", image: "" },
+  { id: "wall-shelves", name: "Wall shelf set", desc: "Set of three floating wooden shelves.", price: 85, size: "Small", category: ["living"], color: "#A39378", image: "" },
+  { id: "console", name: "Hallway console table", desc: "Slim solid wood table for narrow spaces.", price: 240, size: "Medium", category: ["hallway"], color: "#6A5A47", image: "" }
 ];
