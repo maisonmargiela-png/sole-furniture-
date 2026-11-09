@@ -3,6 +3,7 @@ const CART_KEY = "sole-cart";
 const MARK = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="18" fill="#24402F"/><path d="M18 36a14 14 0 0 1 28 0z" fill="#E0A66F"/><rect x="11" y="38" width="42" height="5" rx="2.5" fill="#F6F2EA"/><rect x="17" y="43" width="4" height="11" rx="1.5" fill="#F6F2EA"/><rect x="43" y="43" width="4" height="11" rx="1.5" fill="#F6F2EA"/></svg>';
 const money = n => "€" + n.toLocaleString("en", { maximumFractionDigits: 2 });
 
+const BAG = '<svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" style="margin-right:6px"><path d="M6 8h12l-1 12H7L6 8z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9 8a3 3 0 0 1 6 0" fill="none" stroke="currentColor" stroke-width="2"/></svg>';
 const MOON = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="currentColor"/></svg>';
 const SUN = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
 const EXTRA_CSS = `
@@ -10,7 +11,8 @@ const EXTRA_CSS = `
 .tabs a{padding:8px 10px;font-size:.88rem}
 .card.reveal.in{transition:transform .3s,box-shadow .3s,opacity .7s}
 @media(min-width:1000px) and (max-width:1239px){.tabs{display:none}#menu-btn{display:inline-flex}.actions{margin-left:auto}}
-@media(max-width:480px){header{padding:10px 4vw}.wm b{font-size:1.4rem}#theme-btn{padding:8px 9px}#menu-btn,#basket-btn{padding:8px 12px;font-size:.88rem}.actions{gap:6px}}
+@media(max-width:480px){header{padding:10px 4vw}.wm b{font-size:1.4rem}#theme-btn,#search-btn{padding:8px 9px}#menu-btn,#basket-btn{padding:8px 12px;font-size:.88rem}.actions{gap:6px}.bl{display:none}#basket-btn svg{margin-right:3px}}
+@media(max-width:380px){.wm small{display:none}.wm b{font-size:1.25rem}}
 [data-theme="dark"] .hero,[data-theme="dark"] .page-hero,[data-theme="dark"] .slide{color:#fff}
 `;
 
@@ -60,7 +62,7 @@ function buildHeader() {
   const cur = on => on ? ' aria-current="page"' : "";
   const tabs = `<a href="shop.html"${cur(onShop && !here)}>Shop</a>`
     + used.map(c => `<a href="shop.html?c=${c.id}"${cur(onShop && here === c.id)}>${c.name}</a>`).join("")
-    + `<a href="about.html"${cur(page === "about.html")}>About</a><a href="index.html#contact">Contact</a>`;
+    + `<a href="about.html"${cur(page === "about.html")}>About</a><a href="contact.html"${cur(page === "contact.html")}>Contact</a>`;
   header.innerHTML = `
     <a class="logo" href="index.html" aria-label="Sole Furniture home">
       <span style="display:block;width:36px;height:36px">${MARK}</span>
@@ -70,7 +72,7 @@ function buildHeader() {
     <div class="actions">
       <button id="theme-btn" onclick="toggleTheme()"></button>
       <button id="menu-btn" aria-expanded="false" aria-controls="menu-panel" onclick="toggleMenu()">Menu</button>
-      <button id="basket-btn" onclick="openBasket()">Basket (<span class="basket-count">0</span>)</button>
+      <button id="basket-btn" onclick="openBasket()">${BAG}<span class="bl">Basket&nbsp;</span>(<span class="basket-count">0</span>)</button>
     </div>
     <div id="menu-panel" aria-label="Site menu">
       <a href="index.html">Home</a>
@@ -80,7 +82,7 @@ function buildHeader() {
       <h4>Information</h4>
       <a href="about.html"${cur(page === "about.html")}>About us</a>
       <a href="help.html"${cur(page === "help.html")}>Delivery, returns &amp; FAQ</a>
-      <a href="index.html#contact">Contact</a>
+      <a href="contact.html"${cur(page === "contact.html")}>Contact</a>
     </div>`;
   applyTheme(document.documentElement.getAttribute("data-theme"));
   document.querySelectorAll("#menu-panel a").forEach(a => a.addEventListener("click", () => toggleMenu(false)));
@@ -198,7 +200,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.addEventListener("keydown", e => { if (e.key === "Escape") { closeBasket(); toggleMenu(false); } });
   buildHeader();
   const foot = document.querySelector("footer");
-  if (foot) foot.insertAdjacentHTML("beforeend", '<a href="help.html">Delivery &amp; FAQ</a>');
+  if (foot) foot.insertAdjacentHTML("beforeend", '<a href="help.html">Delivery &amp; FAQ</a><a href="contact.html">Contact</a>');
   const icon = document.createElement("link");
   icon.rel = "icon";
   icon.type = "image/svg+xml";
@@ -206,4 +208,10 @@ document.addEventListener("DOMContentLoaded", () => {
   document.head.appendChild(icon);
   initReveal();
   updateBasket();
+  [["search.js", "SoleSearch"], ["chat.js", "SoleChat"]].forEach(([src, key]) => {
+    if (window[key]) return;
+    const s = document.createElement("script");
+    s.src = src;
+    document.body.appendChild(s);
+  });
 });
