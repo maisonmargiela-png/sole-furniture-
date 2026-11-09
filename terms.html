@@ -7,23 +7,22 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 <style>
-:root{--bg:#EEF0EC;--ink:#1F2A24;--oak:#B8864B;--stone:#D9DDD5;--white:#FBFCFA}
-*{box-sizing:border-box;margin:0}
-body{font-family:"Instrument Sans",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
-a{color:inherit}
-:focus-visible{outline:3px solid var(--oak);outline-offset:3px}
-header{padding:18px 5vw;background:var(--white);border-bottom:1px solid var(--stone)}
-.logo{font-family:"Young Serif",serif;font-size:1.4rem;text-decoration:none}
 main{max-width:70ch;margin:0 auto;padding:48px 5vw 64px}
 h1{font-family:"Young Serif",serif;font-weight:400;font-size:2.2rem;margin-bottom:8px}
-h2{font-size:1.15rem;font-weight:600;margin:30px 0 8px}
+h2{font-family:inherit;font-weight:600;font-size:1.15rem;margin:30px 0 8px}
 p{margin-bottom:10px}
+main a{text-decoration:underline}
 .updated{color:#4b574f;margin-bottom:20px}
+[data-theme="dark"] .updated{color:#A9B3AC}
 </style>
 </head>
 <body>
-<header><a class="logo" href="index.html">Sole Furniture</a></header>
+<header>
+  <a class="logo" href="index.html">Sole Furniture</a>
+  <nav></nav>
+</header>
 <main>
 <h1>Terms and Conditions</h1>
 <p class="updated">Last updated: [date]</p>
@@ -35,13 +34,13 @@ p{margin-bottom:10px}
 <p>When you place an order, you make an offer to buy. We accept it when we send you a shipping confirmation. We may decline an order, for example if an item is out of stock or the price was shown incorrectly, and we will refund any payment made.</p>
 
 <h2>3. Prices and payment</h2>
-<p>Prices are in euros (€) and include [VAT / sales tax] where it applies. Delivery costs are shown at checkout. Payment is taken securely by our payment provider, [Stripe]. We never see or store your card details.</p>
+<p>Prices are in euros (€) and include [VAT / sales tax] where it applies. Delivery is free on orders over €300. For smaller orders, we confirm the delivery cost before you pay. When you send us an order, we reply with the total and how to pay. We never ask for your card details by email.</p>
 
 <h2>4. Delivery</h2>
-<p>We deliver to [countries]. Orders ship within [X] working days and usually arrive within [X–X] working days. Delivery times are estimates, not guarantees. Please check your items on arrival and tell us within [7] days if anything is damaged.</p>
+<p>We deliver to the UK, Spain and Ireland. Orders usually arrive within about a week of confirmation. Delivery times are estimates, not guarantees. Please check your items on arrival and tell us within [7] days if anything is damaged.</p>
 
 <h2>5. Returns and refunds</h2>
-<p>You may cancel your order and return any item within 14 days of receiving it, without giving a reason. To do so, email us at solejug@gmail.com. Items must be unused and in their original packaging. [Return shipping is paid by you / us.] We refund the item price within 14 days of receiving the item back, using the original payment method.</p>
+<p>You may cancel your order and return any item within 14 days of receiving it, without giving a reason. To do so, email us at solejug@gmail.com. Items must be unused and in their original packaging. We pay for return shipping. We refund the item price within 14 days of receiving the item back, using the original payment method.</p>
 <p>Made-to-order or personalised items cannot be returned unless they are faulty.</p>
 
 <h2>6. Faulty or damaged items</h2>
@@ -62,5 +61,11 @@ p{margin-bottom:10px}
 <h2>11. Contact</h2>
 <p>Questions about these terms? Email <a href="mailto:solejug@gmail.com">solejug@gmail.com</a>.</p>
 </main>
+<footer id="contact">
+  <p style="margin-bottom:12px">Questions? Email <a href="mailto:solejug@gmail.com">solejug@gmail.com</a>. We reply within 24 hours on working days.</p>
+  <a href="terms.html">Terms</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a>
+</footer>
+<script src="products.js"></script>
+<script src="cart.js"></script>
 </body>
 </html>
