@@ -4,58 +4,116 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sole Furniture – Quality furniture for the home</title>
+<meta name="description" content="Tables, chairs, shelves and more, chosen to look good and last. Delivered to your door.">
+<meta name="theme-color" content="#24402F">
+<meta property="og:title" content="Sole Furniture">
+<meta property="og:description" content="Quality furniture for the home, delivered to your door.">
+<meta property="og:image" content="https://maisonmargiela-png.github.io/sole-furniture-/images/IMG_6425.jpeg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232F4A3A'/%3E%3Crect x='12' y='22' width='40' height='8' rx='2' fill='%23B8864B'/%3E%3Crect x='17' y='30' width='6' height='18' rx='1.5' fill='%23B8864B'/%3E%3Crect x='41' y='30' width='6' height='18' rx='1.5' fill='%23B8864B'/%3E%3C/svg%3E">
 </head>
 <body>
-<header>
-  <a class="brand" href="index.html" style="font-family:'Young Serif',serif;font-size:1.4rem;text-decoration:none;display:inline-flex;align-items:center;gap:10px"><svg width="30" height="30" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#2F4A3A"/><rect x="12" y="22" width="40" height="8" rx="2" fill="#B8864B"/><rect x="17" y="30" width="6" height="18" rx="1.5" fill="#B8864B"/><rect x="41" y="30" width="6" height="18" rx="1.5" fill="#B8864B"/></svg>Sole Furniture</a>
-  <nav>
-    <a href="#about">About</a>
-    <a href="#contact">Contact</a>
-    <button id="basket-btn" onclick="openBasket()">Basket (<span class="basket-count">0</span>)</button>
-  </nav>
-</header>
-<div class="catbar" id="catbar"></div>
+<header></header>
+
+<div class="usp">
+  <span>Free delivery over €300</span>
+  <span>14-day returns</span>
+  <span>We reply within 24 hours</span>
+</div>
 
 <main>
-  <div class="hero">
-    <h1>Furniture built to last a lifetime.</h1>
-    <p>Tables, chairs and shelves chosen to look good and last, delivered to your door.</p>
-    <a class="btn" href="#shop">Shop furniture</a>
+  <div class="slider" id="slider">
+    <a class="slide on" href="shop.html?c=dining">
+      <img src="images/IMG_6425.jpeg" alt="Rustic oak extending dining table">
+      <div><h2>Dining, made to gather</h2><p>Tables and chairs for everyday meals and long evenings.</p><span class="btn">Shop dining</span></div>
+    </a>
+    <a class="slide" href="shop.html?c=chairs">
+      <img src="images/IMG_6431.jpeg" alt="Cream bouclé dining chairs">
+      <div><h2>Soft seating, slim lines</h2><p>Comfortable chairs with a light, modern shape.</p><span class="btn">Shop chairs</span></div>
+    </a>
+    <a class="slide" href="shop.html?c=living">
+      <img src="images/IMG_6441.jpeg" alt="Tall five-tier bookshelf">
+      <div><h2>Storage that looks good</h2><p>Shelves and tables to organise your living room.</p><span class="btn">Shop living room</span></div>
+    </a>
+    <a class="slide" href="shop.html?c=office">
+      <img src="images/IMG_6448.jpeg" alt="Compact acacia wood desk">
+      <div><h2>Work from home, comfortably</h2><p>A desk with room for your laptop and your essentials.</p><span class="btn">Shop office</span></div>
+    </a>
+    <div class="dots" id="dots"></div>
   </div>
 
+  <section>
+    <h2>Shop by room</h2>
+    <div class="rooms" id="rooms"></div>
+  </section>
+
   <section id="shop">
-    <h2>Featured</h2>
+    <h2>Our favourites</h2>
     <div class="grid" id="products"></div>
     <div class="more"><a class="btn" href="shop.html">View all products</a></div>
   </section>
 
-  <section class="about" id="about">
-    <h2>About us</h2>
-    <p>Sole Furniture sells quality furniture for everyday life. Each piece is chosen for how it looks and how well it lasts. [Add your own story here.]</p>
-    <p>We’re a small team, and we reply to every email ourselves. If you’re unsure about a size, finish or delivery date, just ask.</p>
-    <div class="facts">
-      <div><strong>Delivery</strong>We deliver to [countries]. Orders ship within [X] working days and arrive in [X–X] working days. Delivery costs [€X], or is free over [€X]. You’ll get a tracking email when your order ships.</div>
-      <div><strong>Returns</strong>Return any item within 14 days of receiving it for a full refund of the item price. Items must be unused and in their original packaging. Email us to start a return. Faulty or damaged items are replaced or refunded at no cost.</div>
-      <div><strong>Materials</strong>[Describe your wood, finish and fabrics.] Natural wood varies in grain and colour, so no two pieces look exactly alike.</div>
+  <section>
+    <h2>Why shop with us</h2>
+    <div class="values">
+      <div><h3>Free delivery</h3><p>Free delivery on orders over €300. Tracking included.</p></div>
+      <div><h3>Easy returns</h3><p>Changed your mind? Return it within 14 days.</p></div>
+      <div><h3>Chosen with care</h3><p>Every piece is picked for how it looks and how well it lasts.</p></div>
+      <div><h3>Real people</h3><p>Questions? Email us and we reply within 24 hours.</p></div>
     </div>
+  </section>
+
+  <section>
+    <h2>Our story</h2>
+    <p style="max-width:60ch;margin-bottom:18px">Sole Furniture started with a simple idea: good furniture should be easy to find, honest about what it is made of, and a pleasure to live with. Meet the team and see how we choose our pieces.</p>
+    <a class="btn" href="about.html">Read our story</a>
   </section>
 </main>
 
 <footer id="contact">
-  <p style="margin-bottom:12px">Questions? Email <a href="mailto:solejug@gmail.com">solejug@gmail.com</a></p>
+  <p style="margin-bottom:12px">Questions? Email <a href="mailto:solejug@gmail.com">solejug@gmail.com</a>. We reply within 24 hours on working days.</p>
   <a href="terms.html">Terms</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a>
 </footer>
 
 <script src="products.js"></script>
 <script src="cart.js"></script>
 <script>
-renderCategoryBar(null);
-renderProducts("products", products.slice(0, 4));
+const usedRooms = categories.filter(c => products.some(p => p.category.includes(c.id)));
+document.getElementById("rooms").innerHTML = usedRooms.map(c => {
+  const p = products.find(x => x.category.includes(c.id) && photoOf(x));
+  return `<a class="room" href="shop.html?c=${c.id}">${p ? `<img src="${photoOf(p)}" alt="">` : ""}<span>${c.name}</span></a>`;
+}).join("");
+renderProducts("products", products.filter(p => photoOf(p)).slice(0, 4));
+
+const slides = document.querySelectorAll(".slide");
+const dots = document.getElementById("dots");
+let current = 0, timer;
+function go(n) {
+  current = (n + slides.length) % slides.length;
+  slides.forEach((s, k) => s.classList.toggle("on", k === current));
+  [...dots.children].forEach((d, k) => d.classList.toggle("on", k === current));
+}
+function restart() {
+  clearInterval(timer);
+  if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) timer = setInterval(() => go(current + 1), 5500);
+}
+slides.forEach((s, n) => {
+  const b = document.createElement("button");
+  b.setAttribute("aria-label", "Show slide " + (n + 1));
+  b.onclick = () => { go(n); restart(); };
+  dots.appendChild(b);
+});
+let startX = 0;
+const slider = document.getElementById("slider");
+slider.addEventListener("touchstart", e => { startX = e.touches[0].clientX; }, { passive: true });
+slider.addEventListener("touchend", e => {
+  const d = e.changedTouches[0].clientX - startX;
+  if (Math.abs(d) > 45) { go(current + (d < 0 ? 1 : -1)); restart(); }
+}, { passive: true });
+go(0);
+restart();
 </script>
 </body>
 </html>
