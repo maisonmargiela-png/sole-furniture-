@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Studio – Sole Furniture</title>
+<meta name="theme-color" content="#24402F">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.box{background:var(--white);border-radius:22px;box-shadow:var(--shadow);padding:22px;margin-bottom:24px}
+.box h3{margin-bottom:12px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px}
+.stat{background:var(--bg);border-radius:16px;padding:14px}
+.stat b{display:block;font-size:1.6rem;font-family:"Young Serif",serif;font-weight:400}
+.todo li{margin:0 0 6px 18px}
+.rows{display:grid;gap:8px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 14px;border-radius:14px;background:var(--bg)}
+.row button,.mini{border:1px solid var(--stone);background:var(--white);color:var(--ink);border-radius:999px;padding:7px 14px;font:inherit;cursor:pointer}
+.row .go{font-weight:600}
+form label{display:block;font-weight:600;margin:14px 0 6px}
+form input,form select,form textarea{width:100%;padding:11px 13px;border-radius:14px;border:1px solid var(--stone);background:var(--bg);color:var(--ink);font:inherit}
+form textarea{min-height:90px;resize:vertical}
+.two{display:grid;grid-template-columns:1fr;gap:0 16px}
+@media(min-width:700px){.two{grid-template-columns:1fr 1fr}}
+.checks{display:flex;flex-wrap:wrap;gap:8px 16px}
+.checks label{display:flex;align-items:center;gap:6px;margin:0;font-weight:400}
+.checks input{width:18px;height:18px;accent-color:var(--oak)}
+.hint{font-size:.85rem;opacity:.7;margin-top:4px}
+.actions2{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.actions2 button{border:0;cursor:pointer;font:inherit;font-weight:600;border-radius:999px;padding:12px 22px}
+.pri{background:var(--oak);color:var(--ink)}
+.sec{background:var(--bg);color:var(--ink);border:1px solid var(--stone)!important}
+#out{width:100%;min-height:260px;font-family:ui-monospace,Menlo,monospace;font-size:.78rem;padding:12px;border-radius:14px;border:1px solid var(--stone);background:var(--bg);color:var(--ink)}
+#msg{margin-top:10px;font-weight:600}
+</style>
+</head>
+<body>
+<header></header>
+<main>
+  <div class="page-hero">
+    <h1>Studio</h1>
+    <p>Add and edit products here, then copy the finished code into products.js on GitHub.</p>
+  </div>
+  <section>
+
+    <div class="box">
+      <h3>Overview</h3>
+      <div class="stats" id="stats"></div>
+      <h3 style="margin-top:20px">To do</h3>
+      <ul class="todo" id="todo"></ul>
+    </div>
+
+    <div class="box">
+      <h3>Your products</h3>
+      <div class="rows" id="rows"></div>
+    </div>
+
+    <div class="box">
+      <h3 id="form-title">Add a product</h3>
+      <form id="pform" autocomplete="off">
+        <div class="two">
+          <div><label for="f-name">Name</label><input id="f-name" required></div>
+          <div><label for="f-price">Price (€, number only)</label><input id="f-price" type="number" min="0" step="1" inputmode="decimal" required></div>
+        </div>
+        <label for="f-desc">Short description (shown on the shop page)</label>
+        <input id="f-desc">
+        <label for="f-long">Full description (shown on the product page)</label>
+        <textarea id="f-long"></textarea>
+        <div class="two">
+          <div><label for="f-size">Size</label>
+            <select id="f-size"><option value="">Not set</option><option>Small</option><option>Medium</option><option>Large</option></select></div>
+          <div><label for="f-lead">Availability</label><input id="f-lead" placeholder="In stock"></div>
+        </div>
+        <div class="two">
+          <div><label for="f-colour">Colours (separate with commas)</label><input id="f-colour" placeholder="Cream, Brown"></div>
+          <div><label for="f-material">Materials (separate with commas)</label><input id="f-material" placeholder="Oak, Metal"></div>
+        </div>
+        <label>Categories</label>
+        <div class="checks" id="f-cats"></div>
+        <label for="f-images">Photos (one per line)</label>
+        <textarea id="f-images" placeholder="images/IMG_6441.jpeg"></textarea>
+        <p class="hint">Upload the photos to the images folder on GitHub first, then write each path here. The first one is the main photo.</p>
+        <label for="f-specs">Details (one per line, like: Width | 100 cm)</label>
+        <textarea id="f-specs"></textarea>
+        <label for="f-color">Placeholder colour (shown when there is no photo)</label>
+        <input id="f-color" type="color" value="#8a7b66" style="height:46px;padding:4px">
+        <div class="actions2">
+          <button type="submit" class="pri">Save product</button>
+          <button type="button" class="sec" id="f-new">Clear form</button>
+          <button type="button" class="sec" id="f-del" style="display:none">Delete this product</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="box">
+      <h3>Your new products.js</h3>
+      <p style="margin-bottom:10px">Copy this whole box. In GitHub, open <b>products.js</b>, tap <b>⋯</b>, then <b>Edit file</b>, select all, delete, paste, and commit twice.</p>
+      <textarea id="out" readonly></textarea>
+      <div class="actions2">
+        <button type="button" class="pri" id="copy">Copy code</button>
+        <button type="button" class="sec" id="reset">Undo all my changes</button>
+      </div>
+      <p id="msg" role="status"></p>
+      <p class="hint">Your changes are kept on this device until you reset. They only go live once you paste the code into GitHub.</p>
+    </div>
+
+  </section>
+</main>
+<footer id="contact">
+  <p style="margin-bottom:12px">Sole Furniture studio. This page only prepares code. It cannot change the website by itself.</p>
+  <a href="shop.html">Back to the shop</a>
+</footer>
+<script src="products.js"></script>
+<script src="cart.js"></script>
+<script id="lib">
+const HEADER = `/* EDIT YOUR PRODUCTS HERE. One block per product.
+   id: a short unique name with no spaces (e.g. "oak-table")
+   category: one or more category ids from the list below
+   price: just the number (690 means €690)
+   image: your photo, e.g. "images/oak-table.jpg". Leave out for a colour block.
+   images: a list of photos for the product page (the first is the main one).
+   specs, longDesc, leadTime: optional extra details for the product page.
+   size: "Small", "Medium" or "Large" (used by the filters).
+   colour: list of colours, e.g. ["Brown"]. material: list, e.g. ["Oak"]. (Used by search and filters.)
+   Only list products you can actually supply.
+   Tip: the Studio page (admin.html) can write this file for you. */
+
+`;
+function toSource(cats, prods) {
+  const keys = ["id","name","desc","longDesc","price","size","colour","material","category","color","image","images","leadTime","specs"];
+  const J = v => JSON.stringify(v);
+  const out = prods.map(p => {
+    const lines = [];
+    keys.forEach(k => {
+      const v = p[k];
+      if (v === undefined || v === null || v === "" || (Array.isArray(v) && !v.length)) return;
+      if (k === "specs") lines.push("    specs: [\n" + v.map(s => "      " + J(s)).join(",\n") + "\n    ]");
+      else lines.push("    " + k + ": " + J(v));
+    });
+    return "  {\n" + lines.join(",\n") + "\n  }";
+  });
+  return HEADER + "const categories = [\n" + cats.map(c => "  " + J(c)).join(",\n") + "\n];\n/* A category only shows in the menu once it has at least one product. */\n\nconst products = [\n" + out.join(",\n") + "\n];\n";
+}
+</script>
+<script>
+const KEY = "sole-studio-draft";
+const original = JSON.parse(JSON.stringify(products));
+let items = JSON.parse(JSON.stringify(products));
+try { const d = JSON.parse(localStorage.getItem(KEY)); if (Array.isArray(d) && d.length) items = d; } catch (e) {}
+let editing = null;
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const list = t => t.split(",").map(s => s.trim()).filter(Boolean);
+const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+const hasPhoto = p => (p.images && p.images.length) || p.image;
+
+function persist() { try { localStorage.setItem(KEY, JSON.stringify(items)); } catch (e) {} }
+function refresh() {
+  persist();
+  const total = items.reduce((s, p) => s + p.price, 0);
+  const noPhoto = items.filter(p => !hasPhoto(p));
+  const noDetail = items.filter(p => !p.specs || !p.specs.length);
+  const noSize = items.filter(p => !p.size);
+  const noColour = items.filter(p => !(p.colour && p.colour.length));
+  const emptyCats = categories.filter(c => !items.some(p => p.category.includes(c.id)));
+  $("stats").innerHTML = [
+    [items.length, "products"],
+    [items.length ? "€" + Math.round(total / items.length) : "–", "average price"],
+    [items.length - noPhoto.length, "with photos"],
+    [items.length - noDetail.length, "with full details"]
+  ].map(a => `<div class="stat"><b>${a[0]}</b>${a[1]}</div>`).join("");
+  const todo = [];
+  if (noPhoto.length) todo.push("Need photos: " + noPhoto.map(p => esc(p.name)).join(", "));
+  if (noDetail.length) todo.push("Need details (specs): " + noDetail.map(p => esc(p.name)).join(", "));
+  if (noColour.length) todo.push("No colour set (so the Colour filter skips them): " + noColour.map(p => esc(p.name)).join(", "));
+  if (noSize.length) todo.push("No size set: " + noSize.map(p => esc(p.name)).join(", "));
+  if (emptyCats.length) todo.push("Categories with no products (hidden in the menu): " + emptyCats.map(c => esc(c.name)).join(", "));
+  $("todo").innerHTML = todo.length ? todo.map(t => "<li>" + t + "</li>").join("") : "<li>Everything is filled in. Nice work.</li>";
+  $("rows").innerHTML = items.map((p, i) => `<div class="row"><span><b>${esc(p.name)}</b> · €${p.price}</span><button class="go" onclick="edit(${i})">Edit</button></div>`).join("");
+  $("out").value = toSource(categories, items);
+}
+function fillForm(p) {
+  $("f-name").value = p ? p.name : "";
+  $("f-price").value = p ? p.price : "";
+  $("f-desc").value = p ? (p.desc || "") : "";
+  $("f-long").value = p ? (p.longDesc || "") : "";
+  $("f-size").value = p ? (p.size || "") : "";
+  $("f-lead").value = p ? (p.leadTime || "") : "";
+  $("f-colour").value = p ? (p.colour || []).join(", ") : "";
+  $("f-material").value = p ? (p.material || []).join(", ") : "";
+  $("f-images").value = p ? (p.images || (p.image ? [p.image] : [])).join("\n") : "";
+  $("f-specs").value = p ? (p.specs || []).map(s => s.join(" | ")).join("\n") : "";
+  $("f-color").value = p && /^#[0-9a-f]{6}$/i.test(p.color || "") ? p.color : "#8a7b66";
+  document.querySelectorAll("#f-cats input").forEach(i => { i.checked = !!(p && p.category.includes(i.value)); });
+  $("form-title").textContent = p ? "Edit: " + p.name : "Add a product";
+  $("f-del").style.display = p ? "inline-block" : "none";
+}
+function edit(i) {
+  editing = i;
+  fillForm(items[i]);
+  $("pform").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+$("f-cats").innerHTML = categories.map(c => `<label><input type="checkbox" value="${c.id}"> ${esc(c.name)}</label>`).join("");
+$("pform").addEventListener("submit", e => {
+  e.preventDefault();
+  const prev = editing !== null ? items[editing] : null;
+  const name = $("f-name").value.trim();
+  const imgs = $("f-images").value.split("\n").map(s => s.trim()).filter(Boolean);
+  const specs = $("f-specs").value.split("\n").map(s => s.trim()).filter(Boolean).map(s => {
+    const k = s.indexOf("|");
+    return k < 0 ? [s, ""] : [s.slice(0, k).trim(), s.slice(k + 1).trim()];
+  });
+  const cats = [...document.querySelectorAll("#f-cats input:checked")].map(i => i.value);
+  let id = prev ? prev.id : slug(name);
+  if (!prev) { let base = id || "product", n = 2; id = base; while (items.some(p => p.id === id)) id = base + "-" + n++; }
+  const p = Object.assign({}, prev || {}, {
+    id, name, price: Number($("f-price").value), desc: $("f-desc").value.trim(), longDesc: $("f-long").value.trim(),
+    size: $("f-size").value, leadTime: $("f-lead").value.trim(), colour: list($("f-colour").value), material: list($("f-material").value),
+    category: cats, images: imgs, specs, color: $("f-color").value
+  });
+  if (imgs.length) delete p.image;
+  if (prev) items[editing] = p; else items.push(p);
+  $("msg").textContent = "Saved. Scroll down to copy your new products.js.";
+  editing = null; fillForm(null); refresh();
+});
+$("f-new").addEventListener("click", () => { editing = null; fillForm(null); });
+$("f-del").addEventListener("click", () => {
+  if (editing === null || !confirm("Delete this product from your list?")) return;
+  items.splice(editing, 1); editing = null; fillForm(null); refresh();
+});
+$("copy").addEventListener("click", async () => {
+  const t = $("out");
+  try { await navigator.clipboard.writeText(t.value); $("msg").textContent = "Copied!"; }
+  catch (e) { t.removeAttribute("readonly"); t.focus(); t.select(); t.setSelectionRange(0, t.value.length); $("msg").textContent = "Select all is done. Press and hold, then tap Copy."; }
+});
+$("reset").addEventListener("click", () => {
+  if (!confirm("Undo all your changes and go back to the live products?")) return;
+  items = JSON.parse(JSON.stringify(original)); editing = null; fillForm(null); refresh(); $("msg").textContent = "Back to the live products.";
+});
+fillForm(null);
+refresh();
+</script>
+</body>
+</html>
