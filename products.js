@@ -187,7 +187,31 @@ const products = [
       ["Assembly", "Assembly required"]
     ]
   },
-  { id: "sideboard", name: "Sideboard", desc: "Three doors and adjustable shelves inside.", price: 420, size: "Large", category: ["living", "dining"], color: "#8B735A", image: "" },
+  {
+    id: "sideboard",
+    name: "Fluted four-door sideboard",
+    desc: "Wide sideboard with a fluted front, four push-open doors and eight compartments. 174 cm wide.",
+    longDesc: "A wide sideboard with a fluted front that runs across all four handle-less doors, with softly rounded corners and a recessed base. The grey-toned oak finish lets the natural grain show through. Push the doors to open them and you get eight compartments for tableware, serving pieces or everyday things. At nearly 174 cm wide, it is made for a dining room or living room where you want storage that also looks good.",
+    price: 420,
+    size: "Large",
+    colour: ["Grey", "Brown"],
+    material: ["Wood", "Veneer"],
+    category: ["living", "dining"],
+    color: "#8B735A",
+    images: ["images/IMG_6530.jpeg", "images/IMG_6531.jpeg", "images/IMG_6532.jpeg", "images/IMG_6533.jpeg", "images/IMG_6534.jpeg"],
+    leadTime: "In stock",
+    specs: [
+      ["Overall size", "173.8 cm wide × 45 cm deep × 76 cm high"],
+      ["Doors", "Four push-open doors, no handles"],
+      ["Storage", "Eight compartments inside"],
+      ["Front", "Fluted, with softly rounded corners"],
+      ["Base", "Recessed plinth, 8 cm high"],
+      ["Material", "Wood and veneer"],
+      ["Finish", "Grey-toned oak finish that shows the grain"],
+      ["Weight", "30 kg"],
+      ["Assembly", "Assembly required"]
+    ]
+  },
   { id: "wall-shelves", name: "Wall shelf set", desc: "Set of three floating wooden shelves.", price: 85, size: "Small", category: ["living"], color: "#A39378", image: "" },
   { id: "console", name: "Hallway console table", desc: "Slim solid wood table for narrow spaces.", price: 240, size: "Medium", category: ["hallway"], color: "#6A5A47", image: "" }
 ];
