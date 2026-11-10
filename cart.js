@@ -203,4 +203,42 @@ function renderProducts(containerId, list) {
         <div class="price">${money(p.price)}</div>
         <button class="buy" onclick="addToCart('${p.id}')">Add to basket</button>
       </div>
-    
+    </article>`).join("");
+}
+function renderCategoryBar(activeId) {
+  const bar = document.getElementById("catbar");
+  if (!bar) return;
+  const used = categories.filter(c => products.some(p => p.category.includes(c.id)));
+  bar.innerHTML = `<a href="shop.html"${activeId ? "" : ' aria-current="page"'}>All</a>`
+    + used.map(c => `<a href="shop.html?c=${c.id}"${c.id === activeId ? ' aria-current="page"' : ""}>${c.name}</a>`).join("");
+}
+document.addEventListener("DOMContentLoaded", () => {
+  document.body.insertAdjacentHTML("beforeend", `
+    <div class="overlay" id="overlay" onclick="closeBasket()"></div>
+    <aside class="panel" id="panel" aria-label="Your basket">
+      <div class="panel-head"><h3>Your basket</h3><button onclick="closeBasket()" aria-label="Close basket">×</button></div>
+      <div id="basket-items"></div>
+      <div class="total"><span>Total</span><span id="basket-total">€0</span></div>
+      <button id="pay-btn" onclick="payByCard()">Pay by card (test mode)</button>
+      <p id="pay-msg" role="status"></p>
+      <button id="checkout-btn" onclick="checkout()">Send order by email</button>
+      <p class="note">We’ll reply to confirm your order, delivery cost and payment details.</p>
+    </aside>`);
+  document.addEventListener("keydown", e => { if (e.key === "Escape") { closeBasket(); toggleMenu(false); } });
+  buildHeader();
+  const foot = document.querySelector("footer");
+  if (foot) foot.insertAdjacentHTML("beforeend", '<a href="help.html">Delivery &amp; FAQ</a><a href="contact.html">Contact</a>');
+  const icon = document.createElement("link");
+  icon.rel = "icon";
+  icon.type = "image/svg+xml";
+  icon.href = "data:image/svg+xml," + encodeURIComponent(MARK);
+  document.head.appendChild(icon);
+  initReveal();
+  updateBasket();
+  [["search.js", "SoleSearch"], ["chat.js", "SoleChat"]].forEach(([src, key]) => {
+    if (window[key]) return;
+    const s = document.createElement("script");
+    s.src = src;
+    document.body.appendChild(s);
+  });
+});
