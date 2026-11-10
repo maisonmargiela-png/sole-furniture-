@@ -212,6 +212,31 @@ const products = [
       ["Assembly", "Assembly required"]
     ]
   },
+  {
+    id: "bookcase-cabinet",
+    name: "Fluted bookcase with cabinet",
+    desc: "Tall bookcase with a fluted front, four open shelves and a two-door cabinet below. 175.8 cm high.",
+    longDesc: "A tall bookcase with a fluted finish running down the sides and across the two doors of the cabinet below, with rounded edges that soften the shape. Four open shelves give you room for books, ceramics and favourite objects, while the double-door cabinet keeps everyday things out of sight. A plinth base grounds the piece, and the warm natural oak finish shows off the grain. It works on its own or alongside other pieces in a living room, dining room or home office.",
+    price: 480,
+    size: "Large",
+    colour: ["Brown", "Natural"],
+    material: ["Wood", "Veneer"],
+    category: ["living", "dining", "office"],
+    color: "#8C7A62",
+    images: ["images/IMG_6536.jpeg", "images/IMG_6537.jpeg", "images/IMG_6538.jpeg", "images/IMG_6539.jpeg", "images/IMG_6540.jpeg"],
+    leadTime: "In stock",
+    specs: [
+      ["Overall size", "82 cm wide × 40 cm deep × 175.8 cm high"],
+      ["Open shelves", "Four, each about 27 cm high inside"],
+      ["Cabinet", "Two doors, about 59.4 cm high"],
+      ["Front", "Fluted, with rounded edges"],
+      ["Base", "Plinth base"],
+      ["Material", "Wood and veneer"],
+      ["Finish", "Warm natural oak finish that shows the grain"],
+      ["Weight", "80 kg"],
+      ["Assembly", "Assembly required"]
+    ]
+  },
   { id: "wall-shelves", name: "Wall shelf set", desc: "Set of three floating wooden shelves.", price: 85, size: "Small", category: ["living"], color: "#A39378", image: "" },
   { id: "console", name: "Hallway console table", desc: "Slim solid wood table for narrow spaces.", price: 240, size: "Medium", category: ["hallway"], color: "#6A5A47", image: "" }
 ];
