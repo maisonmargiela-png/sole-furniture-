@@ -118,4 +118,76 @@ const products = [
     id: "bedside",
     name: "Arched bedside table with drawer",
     desc: "Arched bedside table with one drawer and an open shelf. 45 cm wide.",
-    longDesc: "A bedside table
+    longDesc: "A bedside table with one smooth arch running from the top down the front of the drawer. The burr-wood-effect veneer has a warm, figured grain that makes it feel like a considered piece rather than just a place for a lamp. One drawer keeps small things out of sight, and the open shelf below keeps books and a phone within reach. A dark metal T-bar handle adds a crisp contrast.",
+    price: 130,
+    size: "Small",
+    colour: ["Brown"],
+    material: ["Wood veneer", "Metal"],
+    category: ["bedroom"],
+    color: "#9A8B76",
+    images: ["images/IMG_6510.jpeg", "images/IMG_6511.jpeg", "images/IMG_6512.jpeg", "images/IMG_6513.jpeg", "images/IMG_6514.jpeg"],
+    leadTime: "In stock",
+    specs: [
+      ["Overall size", "45 cm wide × 38.5 cm deep × 56 cm high"],
+      ["Drawer (inside)", "35.8 cm wide × 31.3 cm deep × 12 cm high"],
+      ["Open shelf", "41.2 cm wide × 36.7 cm deep × 23 cm high"],
+      ["Leg height", "8.7 cm"],
+      ["Storage", "One drawer and one open shelf"],
+      ["Finish", "Burr-wood-effect veneer"],
+      ["Handle", "Brushed dark metal T-bar"],
+      ["Weight", "20 kg"],
+      ["Assembly", "Assembly required"]
+    ]
+  },
+  {
+    id: "coffee-table",
+    name: "Arched coffee table with open shelves",
+    desc: "Curved coffee table with two tiers of open shelves. 120 cm wide.",
+    longDesc: "A coffee table where the top curves down into the sides in one smooth line. The burr-wood-effect veneer has a warm, figured grain, so it works as a centrepiece for the room. Two tiers of open shelves, split by offset dividers, give you separate spaces for books, magazines and everyday things.",
+    price: 210,
+    size: "Medium",
+    colour: ["Brown"],
+    material: ["Wood veneer"],
+    category: ["living"],
+    color: "#5E4A36",
+    images: ["images/IMG_6516.jpeg", "images/IMG_6517.jpeg", "images/IMG_6518.jpeg"],
+    leadTime: "In stock",
+    specs: [
+      ["Overall size", "120 cm wide × 59 cm deep × 45.5 cm high"],
+      ["Storage", "Two tiers of open shelves with offset dividers"],
+      ["Compartment height", "16 cm"],
+      ["Compartment depth", "58.5 cm"],
+      ["Compartment width", "79.7 cm (widest) and 35.1 cm (smallest)"],
+      ["Finish", "Burr-wood-effect veneer"],
+      ["Weight", "20 kg"],
+      ["Assembly", "No assembly needed. It arrives ready to use"]
+    ]
+  },
+  {
+    id: "bench",
+    name: "Storage bench with woven cane-effect front",
+    desc: "Lift-up storage bench with a soft cushion. 80 cm wide.",
+    longDesc: "A storage bench that works as a seat, a shelf and a place to hide things. The front panel has a woven cane-effect look inside a light, oak-effect frame, and the padded linen-look cushion makes the top comfortable to sit on. Lift the lid and there is roomy storage for blankets, cushions or shoes, with a support strut that holds the lid open. It suits a hallway, a bedroom or the end of a bed.",
+    price: 180,
+    size: "Medium",
+    colour: ["Natural", "Beige"],
+    material: ["Wood effect", "Woven cane effect", "Fabric"],
+    category: ["hallway", "chairs"],
+    color: "#4F6558",
+    images: ["images/IMG_6520.jpeg", "images/IMG_6521.jpeg", "images/IMG_6522.jpeg", "images/IMG_6523.jpeg"],
+    leadTime: "In stock",
+    specs: [
+      ["Overall size", "80 cm wide × 39.5 cm deep × 41.5 cm high"],
+      ["Height with cushion", "45.5 cm (the cushion is 4 cm thick)"],
+      ["Inside the box", "74 cm wide × 35.8 cm deep × 37 cm high"],
+      ["Storage", "Lift-up lid with a support strut"],
+      ["Front panel", "Woven cane-effect panel in an oak-effect frame"],
+      ["Seat", "Padded cushion in a linen-look fabric"],
+      ["Weight", "15 kg"],
+      ["Assembly", "Assembly required"]
+    ]
+  },
+  { id: "sideboard", name: "Sideboard", desc: "Three doors and adjustable shelves inside.", price: 420, size: "Large", category: ["living", "dining"], color: "#8B735A", image: "" },
+  { id: "wall-shelves", name: "Wall shelf set", desc: "Set of three floating wooden shelves.", price: 85, size: "Small", category: ["living"], color: "#A39378", image: "" },
+  { id: "console", name: "Hallway console table", desc: "Slim solid wood table for narrow spaces.", price: 240, size: "Medium", category: ["hallway"], color: "#6A5A47", image: "" }
+];
