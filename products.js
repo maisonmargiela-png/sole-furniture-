@@ -237,7 +237,6 @@ const products = [
       ["Assembly", "Assembly required"]
     ]
   },
-  { id: "wall-shelves", name: "Wall shelf set", desc: "Set of three floating wooden shelves.", price: 85, size: "Small", category: ["living"], color: "#A39378", image: "" },
   {
     id: "console",
     name: "Fluted oval console table and desk",
