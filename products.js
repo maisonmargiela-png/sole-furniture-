@@ -87,4 +87,84 @@ const products = [
       ["Shelves", "5 tiers"],
       ["Material", "Engineered wood (particle board) shelves with an iron-tube frame"],
       ["Colour", "[Add colour]"],
-      ["Weight",
+      ["Weight", "29.2 kg"],
+      ["Assembly", "[Add: assembly needed, and whether wall fixings are included]"]
+    ]
+  },
+  {
+    id: "desk",
+    name: "Compact acacia wood desk with two drawers",
+    desc: "Solid acacia desk, 100 cm wide, with two drawers for storage.",
+    longDesc: "A compact desk made from acacia wood, chosen for its distinctive grain. At 100 cm wide it suits smaller rooms and still leaves space for a laptop, notebook or paperwork, while two drawers keep your essentials tidy. The finish shows off the character of the wood, and the style sits happily in modern, rustic and industrial rooms.",
+    price: 390,
+    size: "Medium",
+    material: ["Acacia"],
+    category: ["office"],
+    color: "#7A5C3E",
+    images: ["images/IMG_6448.jpeg", "images/IMG_6449.jpeg", "images/IMG_6450.jpeg"],
+    leadTime: "In stock",
+    specs: [
+      ["Width", "100 cm"],
+      ["Depth and height", "[Add depth × height in cm]"],
+      ["Material", "Solid acacia wood"],
+      ["Finish", "[Add finish colour]"],
+      ["Storage", "Two drawers"],
+      ["Style", "Works with modern, rustic and industrial interiors"],
+      ["Weight", "[Add weight]"],
+      ["Assembly", "[Add: assembled or assembly needed]"]
+    ]
+  },
+  {
+    id: "bedside",
+    name: "Arched bedside table with drawer",
+    desc: "Arched bedside table with one drawer and an open shelf. 45 cm wide.",
+    longDesc: "A bedside table with one smooth arch running from the top down the front of the drawer. The burr-wood-effect veneer has a warm, figured grain that makes it feel like a considered piece rather than just a place for a lamp. One drawer keeps small things out of sight, and the open shelf below keeps books and a phone within reach. A dark metal T-bar handle adds a crisp contrast.",
+    price: 130,
+    size: "Small",
+    colour: ["Brown"],
+    material: ["Wood veneer", "Metal"],
+    category: ["bedroom"],
+    color: "#9A8B76",
+    images: ["images/IMG_6510.jpeg", "images/IMG_6511.jpeg", "images/IMG_6512.jpeg", "images/IMG_6513.jpeg", "images/IMG_6514.jpeg"],
+    leadTime: "In stock",
+    specs: [
+      ["Overall size", "45 cm wide × 38.5 cm deep × 56 cm high"],
+      ["Drawer (inside)", "35.8 cm wide × 31.3 cm deep × 12 cm high"],
+      ["Open shelf", "41.2 cm wide × 36.7 cm deep × 23 cm high"],
+      ["Leg height", "8.7 cm"],
+      ["Storage", "One drawer and one open shelf"],
+      ["Finish", "Burr-wood-effect veneer"],
+      ["Handle", "Brushed dark metal T-bar"],
+      ["Weight", "20 kg"],
+      ["Assembly", "Assembly required"]
+    ]
+  },
+  {
+    id: "coffee-table",
+    name: "Arched coffee table with open shelves",
+    desc: "Curved coffee table with two tiers of open shelves. 120 cm wide.",
+    longDesc: "A coffee table where the top curves down into the sides in one smooth line. The burr-wood-effect veneer has a warm, figured grain, so it works as a centrepiece for the room. Two tiers of open shelves, split by offset dividers, give you separate spaces for books, magazines and everyday things.",
+    price: 210,
+    size: "Medium",
+    colour: ["Brown"],
+    material: ["Wood veneer"],
+    category: ["living"],
+    color: "#5E4A36",
+    images: ["images/IMG_6516.jpeg", "images/IMG_6517.jpeg", "images/IMG_6518.jpeg"],
+    leadTime: "In stock",
+    specs: [
+      ["Overall size", "120 cm wide × 59 cm deep × 45.5 cm high"],
+      ["Storage", "Two tiers of open shelves with offset dividers"],
+      ["Compartment height", "16 cm"],
+      ["Compartment depth", "58.5 cm"],
+      ["Compartment width", "79.7 cm (widest) and 35.1 cm (smallest)"],
+      ["Finish", "Burr-wood-effect veneer"],
+      ["Weight", "20 kg"],
+      ["Assembly", "No assembly needed. It arrives ready to use"]
+    ]
+  },
+  { id: "bench", name: "Storage bench", desc: "Seat with space inside for shoes or blankets.", price: 180, size: "Medium", category: ["hallway", "chairs"], color: "#4F6558", image: "" },
+  { id: "sideboard", name: "Sideboard", desc: "Three doors and adjustable shelves inside.", price: 420, size: "Large", category: ["living", "dining"], color: "#8B735A", image: "" },
+  { id: "wall-shelves", name: "Wall shelf set", desc: "Set of three floating wooden shelves.", price: 85, size: "Small", category: ["living"], color: "#A39378", image: "" },
+  { id: "console", name: "Hallway console table", desc: "Slim solid wood table for narrow spaces.", price: 240, size: "Medium", category: ["hallway"], color: "#6A5A47", image: "" }
+];
