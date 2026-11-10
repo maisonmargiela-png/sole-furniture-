@@ -238,5 +238,29 @@ const products = [
     ]
   },
   { id: "wall-shelves", name: "Wall shelf set", desc: "Set of three floating wooden shelves.", price: 85, size: "Small", category: ["living"], color: "#A39378", image: "" },
-  { id: "console", name: "Hallway console table", desc: "Slim solid wood table for narrow spaces.", price: 240, size: "Medium", category: ["hallway"], color: "#6A5A47", image: "" }
+  {
+    id: "console",
+    name: "Fluted oval console table and desk",
+    desc: "Oval fluted console table with one handle-less drawer. 132.5 cm wide. Also works as a writing desk.",
+    longDesc: "A softly curved oval table with a fluted finish on its rounded legs and drawer front. The gently curved top and sculptural shape give it a calm look, and the natural oak finish lets the grain show through. One handle-less drawer keeps stationery or tech accessories out of sight. Use it as a hallway console, a writing desk or even a simple vanity.",
+    price: 240,
+    size: "Medium",
+    colour: ["Brown", "Natural"],
+    material: ["Wood", "Veneer"],
+    category: ["hallway", "office"],
+    color: "#6A5A47",
+    images: ["images/IMG_6542.jpeg", "images/IMG_6543.jpeg", "images/IMG_6544.jpeg", "images/IMG_6545.jpeg", "images/IMG_6546.jpeg"],
+    leadTime: "In stock",
+    specs: [
+      ["Overall size", "132.5 cm wide × 55 cm deep × 77 cm high"],
+      ["Space under the top", "65.2 cm high"],
+      ["Drawer", "One handle-less drawer, 79.8 cm wide at the front"],
+      ["Drawer (inside)", "74.9 cm wide × 34 cm deep"],
+      ["Shape", "Oval top with rounded, fluted legs"],
+      ["Material", "Wood and veneer"],
+      ["Finish", "Natural oak finish that shows the grain"],
+      ["Weight", "30 kg"],
+      ["Assembly", "Assembly required"]
+    ]
+  }
 ];
