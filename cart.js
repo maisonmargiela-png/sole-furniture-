@@ -1,5 +1,6 @@
 const CHECKOUT_EMAIL = "solejug@gmail.com";
 const CART_KEY = "sole-cart";
+const PAY_API = "https://sole-play.solejugg.workers.dev";
 const MARK = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="18" fill="#24402F"/><path d="M18 36a14 14 0 0 1 28 0z" fill="#E0A66F"/><rect x="11" y="38" width="42" height="5" rx="2.5" fill="#F6F2EA"/><rect x="17" y="43" width="4" height="11" rx="1.5" fill="#F6F2EA"/><rect x="43" y="43" width="4" height="11" rx="1.5" fill="#F6F2EA"/></svg>';
 const money = n => "€" + n.toLocaleString("en", { maximumFractionDigits: 2 });
 
@@ -13,6 +14,9 @@ const EXTRA_CSS = `
 @media(min-width:1000px) and (max-width:1239px){.tabs{display:none}#menu-btn{display:inline-flex}.actions{margin-left:auto}}
 @media(max-width:480px){header{padding:10px 4vw}.wm b{font-size:1.4rem}#theme-btn,#search-btn{padding:8px 9px}#menu-btn,#basket-btn{padding:8px 12px;font-size:.88rem}.actions{gap:6px}.bl{display:none}#basket-btn svg{margin-right:3px}}
 @media(max-width:380px){.wm small{display:none}.wm b{font-size:1.25rem}}
+#pay-btn{display:none;width:100%;margin-bottom:8px;border:0;border-radius:999px;padding:14px;font:inherit;font-weight:600;cursor:pointer;background:var(--oak);color:var(--ink)}
+#pay-btn:disabled{opacity:.6;cursor:wait}
+#pay-msg{font-size:.9rem;margin:6px 0 10px}
 [data-theme="dark"] .hero,[data-theme="dark"] .page-hero,[data-theme="dark"] .slide{color:#fff}
 `;
 
@@ -152,6 +156,27 @@ function updateBasket() {
     : "<p>Your basket is empty.</p>";
   document.getElementById("basket-total").textContent = money(cartTotal());
   document.getElementById("checkout-btn").style.display = lines.length ? "block" : "none";
+  document.getElementById("pay-btn").style.display = lines.length ? "block" : "none";
+}
+async function payByCard() {
+  const lines = cartLines();
+  if (!lines.length) return;
+  const btn = document.getElementById("pay-btn"), msg = document.getElementById("pay-msg");
+  btn.disabled = true;
+  msg.textContent = "Opening secure checkout…";
+  try {
+    const r = await fetch(PAY_API, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ items: lines.map(l => ({ id: l.p.id, qty: l.qty })) })
+    });
+    const data = await r.json();
+    if (!r.ok || !data.url) throw new Error(data.error || "failed");
+    window.location.href = data.url;
+  } catch (e) {
+    btn.disabled = false;
+    msg.textContent = "Card payment is not available right now. You can send your order by email below and we will reply with how to pay.";
+  }
 }
 function checkout() {
   const lines = cartLines();
@@ -178,40 +203,4 @@ function renderProducts(containerId, list) {
         <div class="price">${money(p.price)}</div>
         <button class="buy" onclick="addToCart('${p.id}')">Add to basket</button>
       </div>
-    </article>`).join("");
-}
-function renderCategoryBar(activeId) {
-  const bar = document.getElementById("catbar");
-  if (!bar) return;
-  const used = categories.filter(c => products.some(p => p.category.includes(c.id)));
-  bar.innerHTML = `<a href="shop.html"${activeId ? "" : ' aria-current="page"'}>All</a>`
-    + used.map(c => `<a href="shop.html?c=${c.id}"${c.id === activeId ? ' aria-current="page"' : ""}>${c.name}</a>`).join("");
-}
-document.addEventListener("DOMContentLoaded", () => {
-  document.body.insertAdjacentHTML("beforeend", `
-    <div class="overlay" id="overlay" onclick="closeBasket()"></div>
-    <aside class="panel" id="panel" aria-label="Your basket">
-      <div class="panel-head"><h3>Your basket</h3><button onclick="closeBasket()" aria-label="Close basket">×</button></div>
-      <div id="basket-items"></div>
-      <div class="total"><span>Total</span><span id="basket-total">€0</span></div>
-      <button id="checkout-btn" onclick="checkout()">Send order by email</button>
-      <p class="note">We’ll reply to confirm your order, delivery cost and payment details.</p>
-    </aside>`);
-  document.addEventListener("keydown", e => { if (e.key === "Escape") { closeBasket(); toggleMenu(false); } });
-  buildHeader();
-  const foot = document.querySelector("footer");
-  if (foot) foot.insertAdjacentHTML("beforeend", '<a href="help.html">Delivery &amp; FAQ</a><a href="contact.html">Contact</a>');
-  const icon = document.createElement("link");
-  icon.rel = "icon";
-  icon.type = "image/svg+xml";
-  icon.href = "data:image/svg+xml," + encodeURIComponent(MARK);
-  document.head.appendChild(icon);
-  initReveal();
-  updateBasket();
-  [["search.js", "SoleSearch"], ["chat.js", "SoleChat"]].forEach(([src, key]) => {
-    if (window[key]) return;
-    const s = document.createElement("script");
-    s.src = src;
-    document.body.appendChild(s);
-  });
-});
+    
