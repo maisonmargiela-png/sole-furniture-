@@ -1,4 +1,4 @@
-const CHECKOUT_EMAIL = "solejug@gmail.com";
+const CHECKOUT_EMAIL = "solejugg@gmail.com";
 const CART_KEY = "sole-cart";
 const PAY_API = "https://sole-play.solejugg.workers.dev";
 const MARK = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="18" fill="#24402F"/><path d="M18 36a14 14 0 0 1 28 0z" fill="#E0A66F"/><rect x="11" y="38" width="42" height="5" rx="2.5" fill="#F6F2EA"/><rect x="17" y="43" width="4" height="11" rx="1.5" fill="#F6F2EA"/><rect x="43" y="43" width="4" height="11" rx="1.5" fill="#F6F2EA"/></svg>';
