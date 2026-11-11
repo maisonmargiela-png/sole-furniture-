@@ -30,17 +30,17 @@ const products = [
     price: 690,
     size: "Large",
     colour: ["Brown"],
-    material: ["Oak"],
+    material: ["Solid oak"],
     category: ["dining"],
     color: "#8A6A44",
     images: ["images/IMG_6425.jpeg", "images/IMG_6426.jpeg", "images/IMG_6427.jpeg", "images/IMG_6428.jpeg", "images/IMG_6429.jpeg"],
-    leadTime: "[In stock / made to order: X weeks]",
+    leadTime: "In stock",
     specs: [
       ["Size (closed)", "140 cm long × 90 cm wide × 77 cm high"],
       ["Size (extended)", "180 cm long × 90 cm wide × 77 cm high"],
       ["Seats", "6 people closed, up to 8 extended"],
       ["Extension", "Butterfly leaf"],
-      ["Material", "Oak top and legs [confirm: solid oak or veneer]"],
+      ["Material", "Solid oak top and legs"],
       ["Finish", "Medium to dark oak stain with a natural oil lacquer, satin finish"],
       ["Style", "Rustic, with rounded corners and lightly sanded edges"],
       ["Assembly", "Minor assembly: the legs bolt onto the base"]
@@ -86,9 +86,8 @@ const products = [
       ["Shelf space", "105 cm wide × 27.5 cm deep × 36.5 cm high"],
       ["Shelves", "5 tiers"],
       ["Material", "Engineered wood (particle board) shelves with an iron-tube frame"],
-      ["Colour", "[Add colour]"],
       ["Weight", "29.2 kg"],
-      ["Assembly", "[Add: assembly needed, and whether wall fixings are included]"]
+      ["Assembly", "Assembly required"]
     ]
   },
   {
@@ -105,13 +104,13 @@ const products = [
     leadTime: "In stock",
     specs: [
       ["Width", "100 cm"],
-      ["Depth and height", "[Add depth × height in cm]"],
+      ["Depth and height", "About 50 cm deep × 76 cm high"],
       ["Material", "Solid acacia wood"],
-      ["Finish", "[Add finish colour]"],
+      ["Finish", "Warm medium brown that shows the grain"],
       ["Storage", "Two drawers"],
       ["Style", "Works with modern, rustic and industrial interiors"],
-      ["Weight", "[Add weight]"],
-      ["Assembly", "[Add: assembled or assembly needed]"]
+      ["Weight", "15 kg"],
+      ["Assembly", "Assembly required"]
     ]
   },
   {
