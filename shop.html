@@ -38,7 +38,7 @@
 <header></header>
 <main>
   <section>
-    <div class="shop-top"><h2 id="page-title">All products</h2><span id="count"></span></div>
+    <div class="shop-top"><h2 id="page-title">The collection</h2><span id="count"></span></div>
     <details class="filters" id="filters">
       <summary>Filter &amp; sort</summary>
       <div class="fbody" id="fbody"></div>
@@ -58,7 +58,7 @@ const params = new URLSearchParams(location.search);
 const q = (params.get("q") || "").trim();
 const cat = categories.find(c => c.id === params.get("c"));
 const base = q ? SoleSearch.search(q) : (cat ? products.filter(p => p.category.includes(cat.id)) : products);
-document.getElementById("page-title").textContent = q ? "Results for “" + q + "”" : (cat ? cat.name : "All products");
+document.getElementById("page-title").textContent = q ? "Results for “" + q + "”" : (cat ? cat.name : "The collection");
 
 const ORDER = ["Small", "Medium", "Large"];
 const groups = [
@@ -98,7 +98,6 @@ document.getElementById("clear").addEventListener("click", () => {
   document.getElementById("sort").value = "";
   apply();
 });
-if (window.innerWidth >= 860) document.getElementById("filters").open = true;
 apply();
 </script>
 </body>
