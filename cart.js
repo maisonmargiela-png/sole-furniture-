@@ -2,41 +2,10 @@ const CHECKOUT_EMAIL = "solejugg@gmail.com";
 const CART_KEY = "sole-cart";
 const PAY_API = "https://sole-play.solejugg.workers.dev";
 const MARK = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="18" fill="#24402F"/><path d="M18 36a14 14 0 0 1 28 0z" fill="#E0A66F"/><rect x="11" y="38" width="42" height="5" rx="2.5" fill="#F6F2EA"/><rect x="17" y="43" width="4" height="11" rx="1.5" fill="#F6F2EA"/><rect x="43" y="43" width="4" height="11" rx="1.5" fill="#F6F2EA"/></svg>';
+const MARK_BARE = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><path d="M18 36a14 14 0 0 1 28 0z" fill="#E0A66F"/><rect x="11" y="38" width="42" height="5" rx="2.5" fill="#F6F2EA"/><rect x="17" y="43" width="4" height="11" rx="1.5" fill="#F6F2EA"/><rect x="43" y="43" width="4" height="11" rx="1.5" fill="#F6F2EA"/></svg>';
 const money = n => "€" + n.toLocaleString("en", { maximumFractionDigits: 2 });
 
 const BAG = '<svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" style="margin-right:6px"><path d="M6 8h12l-1 12H7L6 8z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9 8a3 3 0 0 1 6 0" fill="none" stroke="currentColor" stroke-width="2"/></svg>';
-const MOON = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="currentColor"/></svg>';
-const SUN = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
-const EXTRA_CSS = `
-.catbar{display:none}
-.tabs a{padding:8px 10px;font-size:.88rem}
-.card.reveal.in{transition:transform .3s,box-shadow .3s,opacity .7s}
-@media(min-width:1000px) and (max-width:1239px){.tabs{display:none}#menu-btn{display:inline-flex}.actions{margin-left:auto}}
-@media(max-width:480px){header{padding:10px 4vw}.wm b{font-size:1.4rem}#theme-btn,#search-btn{padding:8px 9px}#menu-btn,#basket-btn{padding:8px 12px;font-size:.88rem}.actions{gap:6px}.bl{display:none}#basket-btn svg{margin-right:3px}}
-@media(max-width:380px){.wm small{display:none}.wm b{font-size:1.25rem}}
-#pay-btn{display:none;width:100%;margin-bottom:8px;border:0;border-radius:999px;padding:14px;font:inherit;font-weight:600;cursor:pointer;background:var(--oak);color:var(--ink)}
-#pay-btn:disabled{opacity:.6;cursor:wait}
-#pay-msg{font-size:.9rem;margin:6px 0 10px}
-[data-theme="dark"] .hero,[data-theme="dark"] .page-hero,[data-theme="dark"] .slide{color:#fff}
-`;
-
-let savedTheme = "light";
-try { savedTheme = localStorage.getItem("sole-theme") || "light"; } catch (e) {}
-document.documentElement.setAttribute("data-theme", savedTheme);
-
-function applyTheme(t) {
-  document.documentElement.setAttribute("data-theme", t);
-  const b = document.getElementById("theme-btn");
-  if (b) {
-    b.innerHTML = t === "dark" ? SUN : MOON;
-    b.setAttribute("aria-label", t === "dark" ? "Switch to light mode" : "Switch to dark mode");
-  }
-}
-function toggleTheme() {
-  const t = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
-  try { localStorage.setItem("sole-theme", t); } catch (e) {}
-  applyTheme(t);
-}
 function toggleMenu(force) {
   const panel = document.getElementById("menu-panel");
   const btn = document.getElementById("menu-btn");
@@ -52,11 +21,8 @@ function addLink(href) {
   document.head.appendChild(l);
 }
 function buildHeader() {
-  addLink("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,600&display=swap");
+  addLink("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Jost:wght@400;500&display=swap");
   addLink("theme.css");
-  const style = document.createElement("style");
-  style.textContent = EXTRA_CSS;
-  document.head.appendChild(style);
   const header = document.querySelector("header");
   if (!header) return;
   const here = new URLSearchParams(location.search).get("c");
@@ -64,23 +30,22 @@ function buildHeader() {
   const onShop = page === "shop.html";
   const used = categories.filter(c => products.some(p => p.category.includes(c.id)));
   const cur = on => on ? ' aria-current="page"' : "";
-  const tabs = `<a href="shop.html"${cur(onShop && !here)}>Shop</a>`
+  const tabs = `<a href="shop.html"${cur(onShop && !here)}>Collection</a>`
     + used.map(c => `<a href="shop.html?c=${c.id}"${cur(onShop && here === c.id)}>${c.name}</a>`).join("")
     + `<a href="about.html"${cur(page === "about.html")}>About</a><a href="contact.html"${cur(page === "contact.html")}>Contact</a>`;
   header.innerHTML = `
     <a class="logo" href="index.html" aria-label="Sole Furniture home">
-      <span style="display:block;width:36px;height:36px">${MARK}</span>
+      <span style="display:block;width:38px;height:38px">${MARK_BARE}</span>
       <span class="wm"><b>Sole</b><small>FURNITURE</small></span>
     </a>
     <nav class="tabs" aria-label="Main">${tabs}</nav>
     <div class="actions">
-      <button id="theme-btn" onclick="toggleTheme()"></button>
       <button id="menu-btn" aria-expanded="false" aria-controls="menu-panel" onclick="toggleMenu()">Menu</button>
       <button id="basket-btn" onclick="openBasket()">${BAG}<span class="bl">Basket&nbsp;</span>(<span class="basket-count">0</span>)</button>
     </div>
     <div id="menu-panel" aria-label="Site menu">
       <a href="index.html">Home</a>
-      <h4>Shop</h4>
+      <h4>Collection</h4>
       <a href="shop.html"${cur(onShop && !here)}>All products</a>
       ${used.map(c => `<a href="shop.html?c=${c.id}"${cur(onShop && here === c.id)}>${c.name}</a>`).join("")}
       <h4>Information</h4>
@@ -88,7 +53,6 @@ function buildHeader() {
       <a href="help.html"${cur(page === "help.html")}>Delivery, returns &amp; FAQ</a>
       <a href="contact.html"${cur(page === "contact.html")}>Contact</a>
     </div>`;
-  applyTheme(document.documentElement.getAttribute("data-theme"));
   document.querySelectorAll("#menu-panel a").forEach(a => a.addEventListener("click", () => toggleMenu(false)));
   document.addEventListener("click", e => { if (!e.target.closest("#menu-panel, #menu-btn")) toggleMenu(false); });
 }
