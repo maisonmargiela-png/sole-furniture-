@@ -261,7 +261,37 @@ body.leaving{opacity:0}
 .card .price{transition:letter-spacing .3s}
 .card:hover .price{letter-spacing:.04em}
 
+/* ---------- Round 3 ---------- */
+.tabs{position:relative}
+.tabs .glide{position:absolute;top:2px;bottom:4px;left:0;width:0;border-radius:999px;background:rgba(246,242,234,.16);opacity:0;pointer-events:none;transition:transform .35s cubic-bezier(.22,.8,.2,1),width .35s cubic-bezier(.22,.8,.2,1),opacity .25s}
+.tabs a{z-index:1}
+.tabs a:hover{background:transparent}
+.tabs a[aria-current]:hover{background:var(--cream)}
+.page-hero h1 .w{display:inline-block;animation:wordup .9s both cubic-bezier(.2,.8,.2,1)}
+@keyframes wordup{from{opacity:0;transform:translateY(.6em) rotate(2deg);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
+.page-hero h1{animation:none}
+.card .photo.tilt{transform:perspective(700px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateY(-5px);transition:transform .12s linear,box-shadow .5s}
+.fly{position:fixed;z-index:80;width:72px;height:90px;border-radius:8px;background:var(--sage) center/cover;box-shadow:0 14px 30px -10px rgba(0,0,0,.5);pointer-events:none}
+#totop{position:fixed;left:18px;bottom:18px;z-index:40;width:44px;height:44px;border-radius:50%;border:1px solid rgba(246,242,234,.35);background:var(--moss);color:var(--cream);font-size:1.2rem;cursor:pointer;opacity:0;visibility:hidden;transform:translateY(14px);transition:opacity .3s,transform .3s,visibility 0s .3s,background .2s}
+#totop.show{opacity:1;visibility:visible;transform:none;transition:opacity .3s,transform .3s}
+#totop:hover{background:var(--oak);color:var(--moss)}
+#basket-btn.bump{box-shadow:0 0 0 0 rgba(184,147,90,.7);animation:bump .45s ease,ring .9s ease-out}
+@keyframes ring{to{box-shadow:0 0 0 16px rgba(184,147,90,0)}}
+.usp span::before{content:"";display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--oak);margin-right:10px;vertical-align:middle;animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:.9}50%{transform:scale(1.7);opacity:.35}}
+.panel.open .line{animation:slidein .5s both cubic-bezier(.22,.8,.2,1)}
+.panel.open .line:nth-child(2){animation-delay:.08s}.panel.open .line:nth-child(3){animation-delay:.16s}.panel.open .line:nth-child(4){animation-delay:.24s}
+@keyframes slidein{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:none}}
+.values>div::before{content:"";display:block;width:0;height:0}
+.price{position:relative}
+.fgroup label{transition:padding-left .25s,color .25s}
+.fgroup label:hover{padding-left:6px;color:var(--clay)}
+.thumbs button{transition:opacity .25s,border-color .25s,transform .25s}
+footer>a:hover{color:var(--oak)}
+
 @media(prefers-reduced-motion:reduce){
+  #totop{display:none}
+  .page-hero h1 .w{filter:none}
   *,*::before,*::after{animation:none!important;transition:none!important}
   .reveal{opacity:1;transform:none}
   .card.reveal .photo img,.room.reveal img{clip-path:none}
