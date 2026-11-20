@@ -194,6 +194,48 @@ function initSlideCount() {
   };
   if (!run()) setTimeout(run, 600);
 }
+function initCursor() {
+  if (!window.matchMedia("(hover:hover) and (pointer:fine)").matches || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const r = document.createElement("div");
+  r.id = "ring";
+  r.innerHTML = "<span></span>";
+  document.body.appendChild(r);
+  let x = -100, y = -100, rx = -100, ry = -100;
+  document.addEventListener("mousemove", e => {
+    x = e.clientX; y = e.clientY; r.classList.add("on");
+    const t = e.target.closest ? e.target : document.body;
+    r.classList.toggle("big", !!t.closest("a, button, summary, label, select"));
+    const ph = t.closest(".card .photo, .room, .slide");
+    r.classList.toggle("view", !!ph);
+    r.firstChild.textContent = ph ? (ph.matches(".room") ? "Browse" : "View") : "";
+  });
+  document.addEventListener("mouseleave", () => r.classList.remove("on"));
+  (function loop() { rx += (x - rx) * .18; ry += (y - ry) * .18; r.style.transform = "translate(" + rx + "px," + ry + "px)"; requestAnimationFrame(loop); })();
+}
+function initTicker() {
+  if (!document.querySelector(".slider")) return;
+  const foot = document.querySelector("footer");
+  if (!foot) return;
+  const used = categories.filter(c => products.some(p => p.category.includes(c.id)));
+  if (!used.length) return;
+  const one = used.map(c => `<a href="shop.html?c=${c.id}">${c.name}</a><i></i>`).join("");
+  const t = document.createElement("div");
+  t.className = "ticker";
+  t.setAttribute("aria-label", "Rooms");
+  t.innerHTML = `<div class="track">${one}${one}${one}${one}</div>`;
+  foot.parentNode.insertBefore(t, foot);
+}
+function initZoom() {
+  if (!window.matchMedia("(hover:hover)").matches) return;
+  document.addEventListener("mousemove", e => {
+    const g = e.target.closest && e.target.closest(".gal-main");
+    if (!g) return;
+    const img = g.querySelector("img");
+    if (!img) return;
+    const b = g.getBoundingClientRect();
+    img.style.transformOrigin = ((e.clientX - b.left) / b.width * 100) + "% " + ((e.clientY - b.top) / b.height * 100) + "%";
+  });
+}
 function tweenText(el, to, fmt) {
   const from = parseFloat(el.dataset.v || "0");
   el.dataset.v = to;
@@ -365,6 +407,9 @@ document.addEventListener("DOMContentLoaded", () => {
   updateBasket();
   initWords();
   initGlow();
+  initCursor();
+  initTicker();
+  initZoom();
   initMagnet();
   initImageFade();
   initSlideCount();
