@@ -53,6 +53,8 @@ function buildHeader() {
       <a href="help.html"${cur(page === "help.html")}>Delivery, returns &amp; FAQ</a>
       <a href="contact.html"${cur(page === "contact.html")}>Contact</a>
     </div>`;
+  const act = header.querySelector(".tabs a[aria-current]"), strip = header.querySelector(".tabs");
+  if (act && strip) window.addEventListener("load", () => { strip.scrollLeft = act.offsetLeft - (strip.clientWidth - act.offsetWidth) / 2; });
   document.querySelectorAll("#menu-panel a").forEach(a => a.addEventListener("click", () => toggleMenu(false)));
   document.addEventListener("click", e => { if (!e.target.closest("#menu-panel, #menu-btn")) toggleMenu(false); });
 }
@@ -60,9 +62,15 @@ function initReveal() {
   const items = document.querySelectorAll(".card, .room, .values > div, main section > h2, .facts > div");
   if (!("IntersectionObserver" in window)) { items.forEach(e => e.classList.add("in")); return; }
   const io = new IntersectionObserver(entries => entries.forEach(en => {
-    if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
+    if (en.isIntersecting) { const t = en.target; t.classList.add("in"); io.unobserve(t); setTimeout(() => { t.style.transitionDelay = ""; }, 1200); }
   }), { threshold: 0.12 });
-  items.forEach(e => { e.classList.add("reveal"); io.observe(e); });
+  items.forEach(e => {
+    const sibs = [...e.parentElement.children].filter(x => x.matches(".card, .room, .values > div, .facts > div"));
+    const i = sibs.indexOf(e);
+    if (i > 0) e.style.transitionDelay = ((i % 4) * 90) + "ms";
+    e.classList.add("reveal");
+    io.observe(e);
+  });
 }
 
 let cart = [];
@@ -76,7 +84,15 @@ function addToCart(id) {
   const item = cart.find(i => i.id === id);
   if (item) item.qty++; else cart.push({ id: id, qty: 1 });
   saveCart();
-  openBasket();
+  const nb = document.getElementById("basket-btn");
+  if (nb) { nb.classList.remove("bump"); void nb.offsetWidth; nb.classList.add("bump"); }
+  const ev = window.event, b = ev && ev.target && ev.target.closest ? ev.target.closest(".buy") : null;
+  if (b && !b.dataset.t) {
+    b.dataset.t = b.textContent;
+    b.textContent = "Added ✓";
+    setTimeout(() => { b.textContent = b.dataset.t; delete b.dataset.t; }, 1500);
+  }
+  setTimeout(openBasket, 350);
 }
 function changeQty(id, change) {
   const item = cart.find(i => i.id === id);
