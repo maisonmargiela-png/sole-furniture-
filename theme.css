@@ -316,7 +316,34 @@ img.fadein.ready{opacity:1;filter:none}
 .info p{transition:color .3s}
 .card:hover .info p{color:var(--ink)}
 
+/* ---------- Round 5 ---------- */
+#ring{position:fixed;left:0;top:0;z-index:90;pointer-events:none;opacity:0;transition:opacity .3s}
+#ring.on{opacity:1}
+#ring::before{content:"";position:absolute;left:-14px;top:-14px;width:28px;height:28px;border-radius:50%;border:1.5px solid var(--oak);background:rgba(184,147,90,0);transition:transform .35s cubic-bezier(.22,.8,.2,1),background .3s,border-color .3s}
+#ring.big::before{transform:scale(1.6);background:rgba(184,147,90,.18)}
+#ring.view::before{transform:scale(2.6);background:rgba(246,242,234,.9);border-color:rgba(246,242,234,.9)}
+#ring span{position:absolute;left:-40px;top:-8px;width:80px;text-align:center;font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--moss);font-weight:500;opacity:0;transition:opacity .25s}
+#ring.view span{opacity:1}
+.ticker{overflow:hidden;background:var(--sage);border-top:1px solid var(--stone);border-bottom:1px solid var(--stone);padding:22px 0;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.ticker .track{display:flex;align-items:center;width:max-content;animation:marquee 38s linear infinite}
+.ticker:hover .track{animation-play-state:paused}
+.ticker a{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(1.6rem,3.4vw,2.6rem);color:var(--moss);text-decoration:none;padding:0 28px;transition:color .3s,font-style .3s}
+.ticker a:hover{color:var(--clay);font-style:italic}
+.ticker i{width:7px;height:7px;border-radius:50%;background:var(--oak);flex:none}
+@keyframes marquee{to{transform:translateX(-25%)}}
+.gal-main{cursor:zoom-in}
+.gal-main img{transition:transform .5s cubic-bezier(.22,.8,.2,1)}
+@media(hover:hover){.gal-main:hover img{transform:scale(1.7)}}
+.slide:nth-child(odd) img{transform-origin:20% 70%}
+.slide:nth-child(even) img{transform-origin:80% 30%}
+section>h2{letter-spacing:.07em;transition:letter-spacing 1.1s cubic-bezier(.22,.8,.2,1),opacity .8s,transform .8s}
+section>h2.in{letter-spacing:.005em}
+main p a,.fgroup a{background:linear-gradient(var(--oak),var(--oak)) 0 100%/0 1px no-repeat;transition:background-size .35s}
+main p a:hover{background-size:100% 1px}
+
 @media(prefers-reduced-motion:reduce){
+  .ticker .track{animation:none}
+  #ring{display:none}
   .page-hero::after{display:none}
   img.fadein{opacity:1;filter:none}
   #totop{display:none}
