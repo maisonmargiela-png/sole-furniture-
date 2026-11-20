@@ -341,7 +341,31 @@ section>h2.in{letter-spacing:.005em}
 main p a,.fgroup a{background:linear-gradient(var(--oak),var(--oak)) 0 100%/0 1px no-repeat;transition:background-size .35s}
 main p a:hover{background-size:100% 1px}
 
+/* ---------- Round 6 ---------- */
+#curtain{position:fixed;inset:0;z-index:200;background:var(--moss);display:flex;align-items:center;justify-content:center;color:var(--cream);transition:transform 1s cubic-bezier(.77,0,.18,1);will-change:transform}
+#curtain.lift{transform:translateY(-100%)}
+#curtain .cm{display:flex;flex-direction:column;align-items:center;gap:6px;animation:up .9s .1s both}
+#curtain .cs{display:block;width:84px;height:84px}
+#curtain .cs svg path:first-child{transform-box:fill-box;transform-origin:center bottom;animation:sunrise 1.2s .15s cubic-bezier(.2,.8,.2,1) both}
+#curtain b{font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;font-size:3rem;line-height:1}
+#curtain small{font-size:.7rem;letter-spacing:.42em;color:var(--oak)}
+.card .photo::before{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 25%,rgba(255,255,255,.4) 50%,transparent 75%);background-size:220% 100%;animation:shimmer 1.5s linear infinite}
+@keyframes shimmer{from{background-position:120% 0}to{background-position:-120% 0}}
+.card .photo img{position:relative;z-index:1}
+.card:not(.reveal){animation:up .6s both}
+.card:not(.reveal):nth-child(2){animation-delay:.07s}.card:not(.reveal):nth-child(3){animation-delay:.14s}.card:not(.reveal):nth-child(4){animation-delay:.21s}.card:not(.reveal):nth-child(5){animation-delay:.28s}.card:not(.reveal):nth-child(6){animation-delay:.35s}
+.basket-count.pop{display:inline-block;animation:pop .5s cubic-bezier(.2,1.6,.4,1)}
+@keyframes pop{0%{transform:scale(.4)}100%{transform:scale(1)}}
+footer{position:relative;overflow:hidden}
+footer>*{position:relative;z-index:1}
+footer .sun{position:absolute;z-index:0;right:6vw;bottom:0;width:min(240px,46vw);height:min(120px,23vw);border-radius:999px 999px 0 0;background:radial-gradient(circle at 50% 100%,rgba(224,166,111,.55),rgba(184,147,90,.18) 65%,transparent 72%);transform:translateY(100%);opacity:0;transition:transform 1.6s cubic-bezier(.2,.8,.2,1),opacity 1.6s;pointer-events:none}
+footer .sun.in{transform:none;opacity:1}
+main section>p{max-width:62ch}
+
 @media(prefers-reduced-motion:reduce){
+  #curtain{display:none}
+  .card .photo::before{display:none}
+  footer .sun{transform:none;opacity:1}
   .ticker .track{animation:none}
   #ring{display:none}
   .page-hero::after{display:none}
