@@ -140,6 +140,71 @@ function flyToBasket(from) {
   const an = d.animate([{ transform: "translate(0,0) scale(1)", opacity: 1 }, { transform: `translate(${dx * .5}px,${dy * .5 - 60}px) scale(.7)`, opacity: 1, offset: .5 }, { transform: `translate(${dx}px,${dy}px) scale(.12)`, opacity: .2 }], { duration: 750, easing: "cubic-bezier(.5,0,.7,.4)" });
   an.onfinish = () => d.remove();
 }
+function initGlow() {
+  if (!window.matchMedia("(hover:hover)").matches || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  document.querySelectorAll(".page-hero, .slider").forEach(el => {
+    el.addEventListener("mousemove", e => {
+      const r = el.getBoundingClientRect();
+      el.style.setProperty("--mx", (e.clientX - r.left) + "px");
+      el.style.setProperty("--my", (e.clientY - r.top) + "px");
+      el.classList.add("glow");
+    });
+    el.addEventListener("mouseleave", () => el.classList.remove("glow"));
+  });
+}
+function initMagnet() {
+  if (!window.matchMedia("(hover:hover)").matches || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const sel = ".btn, #basket-btn, .buybox .buy";
+  document.addEventListener("mousemove", e => {
+    const b = e.target.closest && e.target.closest(sel);
+    document.querySelectorAll(".mag").forEach(x => { if (x !== b) { x.classList.remove("mag"); x.style.removeProperty("--tx"); x.style.removeProperty("--ty"); } });
+    if (!b) return;
+    const r = b.getBoundingClientRect();
+    b.classList.add("mag");
+    b.style.setProperty("--tx", ((e.clientX - r.left - r.width / 2) * .18).toFixed(1) + "px");
+    b.style.setProperty("--ty", ((e.clientY - r.top - r.height / 2) * .3).toFixed(1) + "px");
+  });
+}
+function initImageFade() {
+  const fade = img => {
+    if (img.dataset.f) return;
+    img.dataset.f = 1;
+    if (img.complete && img.naturalWidth) return;
+    img.classList.add("fadein");
+    img.addEventListener("load", () => img.classList.add("ready"), { once: true });
+    img.addEventListener("error", () => img.classList.add("ready"), { once: true });
+  };
+  const scan = () => document.querySelectorAll(".card .photo img:not(.alt), .room img, .gal-main img, .slide img").forEach(fade);
+  scan();
+  new MutationObserver(scan).observe(document.body, { childList: true, subtree: true });
+}
+function initSlideCount() {
+  const slider = document.querySelector(".slider");
+  if (!slider) return;
+  const run = () => {
+    const slides = [...slider.querySelectorAll(".slide")];
+    if (slides.length < 2) return false;
+    const n = document.createElement("div");
+    n.className = "scount";
+    slider.appendChild(n);
+    const upd = () => { const i = Math.max(0, slides.findIndex(s => s.classList.contains("on"))); n.innerHTML = "<b>" + String(i + 1).padStart(2, "0") + "</b> / " + String(slides.length).padStart(2, "0"); };
+    upd();
+    slides.forEach(s => new MutationObserver(upd).observe(s, { attributes: true, attributeFilter: ["class"] }));
+    return true;
+  };
+  if (!run()) setTimeout(run, 600);
+}
+function tweenText(el, to, fmt) {
+  const from = parseFloat(el.dataset.v || "0");
+  el.dataset.v = to;
+  if (from === to || window.matchMedia("(prefers-reduced-motion: reduce)").matches) { el.textContent = fmt(to); return; }
+  const t0 = performance.now(), dur = 600;
+  (function step(t) {
+    const k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+    el.textContent = fmt(from + (to - from) * e);
+    if (k < 1) requestAnimationFrame(step); else el.textContent = fmt(to);
+  })(t0);
+}
 function initPageLeave() {
   window.addEventListener("pageshow", () => document.body.classList.remove("leaving"));
   document.addEventListener("click", e => {
@@ -217,7 +282,7 @@ function updateBasket() {
         </div>
       </div>`).join("")
     : "<p>Your basket is empty.</p>";
-  document.getElementById("basket-total").textContent = money(cartTotal());
+  tweenText(document.getElementById("basket-total"), cartTotal(), v => money(Math.round(v)));
   document.getElementById("checkout-btn").style.display = lines.length ? "block" : "none";
   document.getElementById("pay-btn").style.display = lines.length ? "block" : "none";
 }
@@ -299,6 +364,10 @@ document.addEventListener("DOMContentLoaded", () => {
   initReveal();
   updateBasket();
   initWords();
+  initGlow();
+  initMagnet();
+  initImageFade();
+  initSlideCount();
   initScrollFx();
   initToTop();
   initTilt();
