@@ -73,6 +73,37 @@ function initReveal() {
   });
 }
 
+function initScrollFx() {
+  const bar = document.createElement("div");
+  bar.id = "progress";
+  document.body.appendChild(bar);
+  const header = document.querySelector("header"), slider = document.querySelector(".slider");
+  let ticking = false;
+  function tick() {
+    const y = window.scrollY, max = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.transform = "scaleX(" + (max > 0 ? Math.min(1, y / max) : 0) + ")";
+    if (header) { if (y > 60) header.classList.add("scrolled"); else if (y < 20) header.classList.remove("scrolled"); }
+    if (slider && y < window.innerHeight) slider.style.setProperty("--py", Math.min(y * 0.05, 24) + "px");
+    ticking = false;
+  }
+  window.addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(tick); } }, { passive: true });
+  tick();
+}
+function initPageLeave() {
+  window.addEventListener("pageshow", () => document.body.classList.remove("leaving"));
+  document.addEventListener("click", e => {
+    const a = e.target.closest && e.target.closest("a[href]");
+    if (!a || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+    if (a.target && a.target !== "_self") return;
+    const u = new URL(a.href, location.href);
+    if (u.origin !== location.origin || (u.pathname === location.pathname && u.search === location.search)) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    e.preventDefault();
+    document.body.classList.add("leaving");
+    setTimeout(() => { location.href = u.href; }, 220);
+  });
+}
+
 let cart = [];
 try { cart = JSON.parse(localStorage.getItem(CART_KEY)) || []; } catch (e) { cart = []; }
 
@@ -175,7 +206,7 @@ function renderProducts(containerId, list) {
   box.innerHTML = list.map(p => `
     <article class="card">
       <a href="product.html?id=${p.id}" style="text-decoration:none;color:inherit">
-        <div class="photo" style="background:${p.color}">${photoOf(p) ? `<img src="${photoOf(p)}" alt="${p.name}">` : "<span>Photo coming soon</span>"}</div>
+        <div class="photo" style="background:${p.color}">${photoOf(p) ? `<img src="${photoOf(p)}" alt="${p.name}" loading="lazy" decoding="async">${p.images && p.images[1] ? `<img class="alt" src="${p.images[1]}" alt="" loading="lazy" decoding="async">` : ""}` : "<span>Photo coming soon</span>"}</div>
       </a>
       <div class="info">
         <h3><a href="product.html?id=${p.id}" style="text-decoration:none;color:inherit">${p.name}</a></h3>
@@ -215,6 +246,8 @@ document.addEventListener("DOMContentLoaded", () => {
   document.head.appendChild(icon);
   initReveal();
   updateBasket();
+  initScrollFx();
+  initPageLeave();
   [["search.js", "SoleSearch"], ["chat.js", "SoleChat"]].forEach(([src, key]) => {
     if (window[key]) return;
     const s = document.createElement("script");
