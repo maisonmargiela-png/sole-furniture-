@@ -55,6 +55,14 @@ function buildHeader() {
     </div>`;
   const act = header.querySelector(".tabs a[aria-current]"), strip = header.querySelector(".tabs");
   if (act && strip) window.addEventListener("load", () => { strip.scrollLeft = act.offsetLeft - (strip.clientWidth - act.offsetWidth) / 2; });
+  if (strip) {
+    const g = document.createElement("span");
+    g.className = "glide";
+    strip.prepend(g);
+    const go = a => { if (!a) { g.style.opacity = 0; return; } g.style.opacity = 1; g.style.width = a.offsetWidth + "px"; g.style.transform = "translateX(" + a.offsetLeft + "px)"; };
+    strip.querySelectorAll("a").forEach(a => { a.addEventListener("mouseenter", () => go(a)); a.addEventListener("focus", () => go(a)); });
+    strip.addEventListener("mouseleave", () => { g.style.opacity = 0; });
+  }
   document.querySelectorAll("#menu-panel a").forEach(a => a.addEventListener("click", () => toggleMenu(false)));
   document.addEventListener("click", e => { if (!e.target.closest("#menu-panel, #menu-btn")) toggleMenu(false); });
 }
@@ -89,6 +97,49 @@ function initScrollFx() {
   window.addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(tick); } }, { passive: true });
   tick();
 }
+function initWords() {
+  document.querySelectorAll(".page-hero h1").forEach(h => {
+    const w = h.textContent.trim().split(/\s+/);
+    h.setAttribute("aria-label", h.textContent.trim());
+    h.innerHTML = w.map((x, i) => `<span class="w" aria-hidden="true" style="animation-delay:${0.05 + i * 0.09}s">${x}</span>`).join(" ");
+  });
+}
+function initTilt() {
+  if (!window.matchMedia("(hover:hover)").matches || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  document.addEventListener("mousemove", e => {
+    const p = e.target.closest && e.target.closest(".card .photo");
+    document.querySelectorAll(".card .photo.tilt").forEach(x => { if (x !== p) { x.classList.remove("tilt"); x.style.removeProperty("--rx"); x.style.removeProperty("--ry"); } });
+    if (!p) return;
+    const r = p.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+    p.classList.add("tilt");
+    p.style.setProperty("--rx", (-y * 5).toFixed(2) + "deg");
+    p.style.setProperty("--ry", (x * 6).toFixed(2) + "deg");
+  });
+}
+function initToTop() {
+  const b = document.createElement("button");
+  b.id = "totop";
+  b.setAttribute("aria-label", "Back to top");
+  b.innerHTML = "↑";
+  b.onclick = () => window.scrollTo({ top: 0, behavior: "smooth" });
+  document.body.appendChild(b);
+  window.addEventListener("scroll", () => b.classList.toggle("show", window.scrollY > 700), { passive: true });
+}
+function flyToBasket(from) {
+  const to = document.getElementById("basket-btn");
+  if (!from || !to || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const a = from.getBoundingClientRect(), b = to.getBoundingClientRect();
+  const d = document.createElement("div");
+  d.className = "fly";
+  const img = from.querySelector("img");
+  if (img) d.style.backgroundImage = "url('" + img.currentSrc + "')";
+  d.style.left = a.left + a.width / 2 - 36 + "px";
+  d.style.top = a.top + a.height / 2 - 45 + "px";
+  document.body.appendChild(d);
+  const dx = b.left + b.width / 2 - (a.left + a.width / 2), dy = b.top + b.height / 2 - (a.top + a.height / 2);
+  const an = d.animate([{ transform: "translate(0,0) scale(1)", opacity: 1 }, { transform: `translate(${dx * .5}px,${dy * .5 - 60}px) scale(.7)`, opacity: 1, offset: .5 }, { transform: `translate(${dx}px,${dy}px) scale(.12)`, opacity: .2 }], { duration: 750, easing: "cubic-bezier(.5,0,.7,.4)" });
+  an.onfinish = () => d.remove();
+}
 function initPageLeave() {
   window.addEventListener("pageshow", () => document.body.classList.remove("leaving"));
   document.addEventListener("click", e => {
@@ -118,12 +169,13 @@ function addToCart(id) {
   const nb = document.getElementById("basket-btn");
   if (nb) { nb.classList.remove("bump"); void nb.offsetWidth; nb.classList.add("bump"); }
   const ev = window.event, b = ev && ev.target && ev.target.closest ? ev.target.closest(".buy") : null;
+  if (b) flyToBasket(document.querySelector(".card .photo") && b.closest(".card") ? b.closest(".card").querySelector(".photo") : document.querySelector(".gal-main"));
   if (b && !b.dataset.t) {
     b.dataset.t = b.textContent;
     b.textContent = "Added ✓";
     setTimeout(() => { b.textContent = b.dataset.t; delete b.dataset.t; }, 1500);
   }
-  setTimeout(openBasket, 350);
+  setTimeout(openBasket, 800);
 }
 function changeQty(id, change) {
   const item = cart.find(i => i.id === id);
@@ -246,7 +298,10 @@ document.addEventListener("DOMContentLoaded", () => {
   document.head.appendChild(icon);
   initReveal();
   updateBasket();
+  initWords();
   initScrollFx();
+  initToTop();
+  initTilt();
   initPageLeave();
   [["search.js", "SoleSearch"], ["chat.js", "SoleChat"]].forEach(([src, key]) => {
     if (window[key]) return;
