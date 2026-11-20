@@ -67,7 +67,7 @@ function buildHeader() {
   document.addEventListener("click", e => { if (!e.target.closest("#menu-panel, #menu-btn")) toggleMenu(false); });
 }
 function initReveal() {
-  const items = document.querySelectorAll(".card, .room, .values > div, main section > h2, .facts > div");
+  const items = document.querySelectorAll(".card, .room, .values > div, main section > h2, main section > p, .facts > div");
   if (!("IntersectionObserver" in window)) { items.forEach(e => e.classList.add("in")); return; }
   const io = new IntersectionObserver(entries => entries.forEach(en => {
     if (en.isIntersecting) { const t = en.target; t.classList.add("in"); io.unobserve(t); setTimeout(() => { t.style.transitionDelay = ""; }, 1200); }
@@ -236,6 +236,27 @@ function initZoom() {
     img.style.transformOrigin = ((e.clientX - b.left) / b.width * 100) + "% " + ((e.clientY - b.top) / b.height * 100) + "%";
   });
 }
+function initCurtain() {
+  if (!document.querySelector(".slider") || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  try { if (sessionStorage.getItem("sole-intro")) return; sessionStorage.setItem("sole-intro", "1"); } catch (e) { return; }
+  const c = document.createElement("div");
+  c.id = "curtain";
+  c.innerHTML = '<div class="cm"><span class="cs">' + MARK_BARE + '</span><b>Sole</b><small>FURNITURE</small></div>';
+  document.body.appendChild(c);
+  setTimeout(() => c.classList.add("lift"), 1300);
+  setTimeout(() => c.remove(), 2300);
+}
+function initFooterSun() {
+  const foot = document.querySelector("footer");
+  if (!foot) return;
+  const s = document.createElement("div");
+  s.className = "sun";
+  s.setAttribute("aria-hidden", "true");
+  foot.appendChild(s);
+  if (!("IntersectionObserver" in window)) { s.classList.add("in"); return; }
+  const io = new IntersectionObserver(en => { if (en[0].isIntersecting) { s.classList.add("in"); io.disconnect(); } }, { threshold: 0.3 });
+  io.observe(foot);
+}
 function tweenText(el, to, fmt) {
   const from = parseFloat(el.dataset.v || "0");
   el.dataset.v = to;
@@ -310,7 +331,10 @@ function closeBasket() {
 function updateBasket() {
   const lines = cartLines();
   const count = lines.reduce((s, l) => s + l.qty, 0);
-  document.querySelectorAll(".basket-count").forEach(e => e.textContent = count);
+  document.querySelectorAll(".basket-count").forEach(e => {
+    if (e.textContent !== String(count) && e.dataset.s) { e.classList.remove("pop"); void e.offsetWidth; e.classList.add("pop"); }
+    e.textContent = count; e.dataset.s = 1;
+  });
   const box = document.getElementById("basket-items");
   if (!box) return;
   box.innerHTML = lines.length
@@ -392,35 +416,4 @@ document.addEventListener("DOMContentLoaded", () => {
       <button id="pay-btn" onclick="payByCard()">Pay by card (test mode)</button>
       <p id="pay-msg" role="status"></p>
       <button id="checkout-btn" onclick="checkout()">Send order by email</button>
-      <p class="note">We’ll reply to confirm your order, delivery cost and payment details.</p>
-    </aside>`);
-  document.addEventListener("keydown", e => { if (e.key === "Escape") { closeBasket(); toggleMenu(false); } });
-  buildHeader();
-  const foot = document.querySelector("footer");
-  if (foot) foot.insertAdjacentHTML("beforeend", '<a href="help.html">Delivery &amp; FAQ</a><a href="contact.html">Contact</a>');
-  const icon = document.createElement("link");
-  icon.rel = "icon";
-  icon.type = "image/svg+xml";
-  icon.href = "data:image/svg+xml," + encodeURIComponent(MARK);
-  document.head.appendChild(icon);
-  initReveal();
-  updateBasket();
-  initWords();
-  initGlow();
-  initCursor();
-  initTicker();
-  initZoom();
-  initMagnet();
-  initImageFade();
-  initSlideCount();
-  initScrollFx();
-  initToTop();
-  initTilt();
-  initPageLeave();
-  [["search.js", "SoleSearch"], ["chat.js", "SoleChat"]].forEach(([src, key]) => {
-    if (window[key]) return;
-    const s = document.createElement("script");
-    s.src = src;
-    document.body.appendChild(s);
-  });
-});
+      
