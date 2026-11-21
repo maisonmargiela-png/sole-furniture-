@@ -362,6 +362,8 @@ footer .sun{position:absolute;z-index:0;right:6vw;bottom:0;width:min(240px,46vw)
 footer .sun.in{transform:none;opacity:1}
 main section>p{max-width:62ch}
 
+img.trimming{visibility:hidden}
+
 @media(prefers-reduced-motion:reduce){
   #curtain{display:none}
   .card .photo::before{display:none}
