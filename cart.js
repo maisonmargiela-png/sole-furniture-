@@ -257,6 +257,71 @@ function initFooterSun() {
   const io = new IntersectionObserver(en => { if (en[0].isIntersecting) { s.classList.add("in"); io.disconnect(); } }, { threshold: 0.3 });
   io.observe(foot);
 }
+const TRIM_CACHE = {};
+function trimBars(src) {
+  return TRIM_CACHE[src] || (TRIM_CACHE[src] = new Promise(res => {
+    const im = new Image();
+    im.onload = () => {
+      try {
+        const nw = im.naturalWidth, nh = im.naturalHeight;
+        if (!nw || !nh) return res(null);
+        const sw = Math.min(120, nw), sh = Math.max(1, Math.round(sw * nh / nw));
+        const c = document.createElement("canvas");
+        c.width = sw; c.height = sh;
+        const x = c.getContext("2d", { willReadFrequently: true });
+        x.drawImage(im, 0, 0, sw, sh);
+        const d = x.getImageData(0, 0, sw, sh).data;
+        const dark = (n, get) => { let s = 0, q = 0; for (let k = 0; k < n; k++) { const i = get(k) * 4, l = .299 * d[i] + .587 * d[i + 1] + .114 * d[i + 2]; s += l; q += l * l; } const m = s / n; return m < 50 && Math.sqrt(Math.max(0, q / n - m * m)) < 6; };
+        const row = y => dark(sw, k => y * sw + k), col = k2 => dark(sh, k => k * sw + k2);
+        let t = 0, b = 0, l = 0, r = 0;
+        while (t < sh * .6 && row(t)) t++;
+        while (b < sh * .6 && row(sh - 1 - b)) b++;
+        while (l < sw * .6 && col(l)) l++;
+        while (r < sw * .6 && col(sw - 1 - r)) r++;
+        if (t < sh * .02) t = 0;
+        if (b < sh * .02) b = 0;
+        if (l < sw * .02) l = 0;
+        if (r < sw * .02) r = 0;
+        if (!t && !b && !l && !r) return res(null);
+        const m = 3, sx = l ? l / sw * nw + m : 0, sy = t ? t / sh * nh + m : 0;
+        const ex = r ? nw - r / sw * nw - m : nw, ey = b ? nh - b / sh * nh - m : nh;
+        const cw = Math.round(ex - sx), ch = Math.round(ey - sy);
+        if (cw < 50 || ch < 50) return res(null);
+        const k = Math.min(1, 1600 / Math.max(cw, ch));
+        const o = document.createElement("canvas");
+        o.width = Math.round(cw * k); o.height = Math.round(ch * k);
+        o.getContext("2d").drawImage(im, sx, sy, cw, ch, 0, 0, o.width, o.height);
+        o.toBlob(bl => res(bl ? URL.createObjectURL(bl) : null), "image/jpeg", .92);
+      } catch (e) { res(null); }
+    };
+    im.onerror = () => res(null);
+    im.src = src;
+  }));
+}
+function trimImg(img) {
+  const src = img.currentSrc || img.src;
+  if (!src || src.indexOf("blob:") === 0 || src.indexOf("data:") === 0) { img.classList.remove("trimming"); return; }
+  trimBars(src).then(r => {
+    if (r && (img.currentSrc || img.src) === src) {
+      img.addEventListener("load", () => img.classList.remove("trimming"), { once: true });
+      img.src = r;
+    } else img.classList.remove("trimming");
+  });
+}
+function initTrim() {
+  const attach = img => {
+    if (img.dataset.tr) return;
+    img.dataset.tr = 1;
+    img.classList.add("trimming");
+    img.addEventListener("load", () => trimImg(img));
+    img.addEventListener("error", () => img.classList.remove("trimming"));
+    if (img.complete && img.naturalWidth) trimImg(img);
+  };
+  const scan = () => document.querySelectorAll(".card .photo img, .room img, .gal-main img, .thumbs img, .slide img").forEach(attach);
+  scan();
+  new MutationObserver(scan).observe(document.body, { childList: true, subtree: true });
+  setTimeout(() => document.querySelectorAll("img.trimming").forEach(i => i.classList.remove("trimming")), 7000);
+}
 function tweenText(el, to, fmt) {
   const from = parseFloat(el.dataset.v || "0");
   el.dataset.v = to;
@@ -416,4 +481,38 @@ document.addEventListener("DOMContentLoaded", () => {
       <button id="pay-btn" onclick="payByCard()">Pay by card (test mode)</button>
       <p id="pay-msg" role="status"></p>
       <button id="checkout-btn" onclick="checkout()">Send order by email</button>
-      
+      <p class="note">We’ll reply to confirm your order, delivery cost and payment details.</p>
+    </aside>`);
+  document.addEventListener("keydown", e => { if (e.key === "Escape") { closeBasket(); toggleMenu(false); } });
+  buildHeader();
+  const foot = document.querySelector("footer");
+  if (foot) foot.insertAdjacentHTML("beforeend", '<a href="help.html">Delivery &amp; FAQ</a><a href="contact.html">Contact</a>');
+  const icon = document.createElement("link");
+  icon.rel = "icon";
+  icon.type = "image/svg+xml";
+  icon.href = "data:image/svg+xml," + encodeURIComponent(MARK);
+  document.head.appendChild(icon);
+  initReveal();
+  updateBasket();
+  initWords();
+  initCurtain();
+  initFooterSun();
+  initGlow();
+  initCursor();
+  initTicker();
+  initZoom();
+  initMagnet();
+  initTrim();
+  initImageFade();
+  initSlideCount();
+  initScrollFx();
+  initToTop();
+  initTilt();
+  initPageLeave();
+  [["search.js", "SoleSearch"], ["chat.js", "SoleChat"]].forEach(([src, key]) => {
+    if (window[key]) return;
+    const s = document.createElement("script");
+    s.src = src;
+    document.body.appendChild(s);
+  });
+});
